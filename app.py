@@ -9,8 +9,8 @@ from Backend.Database.DB_communication import (
 
 app = Flask(
     __name__,
-    template_folder='Dashboard',  # Set template folder to Dashboard
-    static_folder='Dashboard'  # Set static folder to Dashboard
+    template_folder='Frontend/Dashboard',  # Set template folder to Dashboard
+    static_folder='Frontend/Dashboard'  # Set static folder to Dashboard
 )
 
 
