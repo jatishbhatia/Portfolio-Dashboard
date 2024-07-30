@@ -1,7 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
-from Backend.MarketData.YahooAPI.market_data_source import get_market_data, \
-    get_current_price, get_stock_info  # Import your function here
+
+from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, get_stock_info  # Import your function here
+from Backend.Database.DB_communication import (
+    create_asset, fetch_assets, update_asset, delete_asset,
+    create_category, fetch_categories, update_category, delete_category,
+    create_asset_category, fetch_asset_categories, delete_asset_category
+)
+
 
 app = Flask(
     __name__,
@@ -50,6 +56,10 @@ def get_market_data_api(stock, start_date, end_date, interval):
     df = get_market_data(stock, start_date_dt, end_date_dt, interval)
     return df.to_json(orient='records')
 
+@app.route('/assets', methods=['GET'])
+def get_assets():
+    assets = fetch_assets()
+    return jsonify(assets), 200
 
 @app.route("/api/get_current_price/<string:stock>")
 def get_current_price_api(stock):
