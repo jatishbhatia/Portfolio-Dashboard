@@ -66,7 +66,7 @@ def get_current_price_api(stock):
     return get_current_price(stock)
 
 
-@app.route("/api/get_stock_info/<string:stock")
+@app.route("/api/get_stock_info/<string:stock>")
 def get_stock_info_api(stock):
     return get_stock_info(stock)
 
