@@ -16,79 +16,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- STYLESHEET -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style/root.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style/navBar.css') }}">
+    <link rel="stylesheet" href="Dashboard/css/root.css">
+    <link rel="stylesheet" href="Dashboard/css/navBar.css">
+
 </head>
 
 <body>
-    <button onclick="callPythonCode()"> TESTING BUTTON </button>
+    <button class="button" onclick="callPostRecord()"> TESTING THE POST BUTTON API </button>
     <div id="result"></div>
 
-    <script>
-        function callPythonCode() {
-            fetch('/run_python_code', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: 'AAPL',
-                    start: '2022-01-01',
-                    end: '2022-12-31',
-                    interval: '1d'
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text) });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data.result);
-                alert('Python code executed successfully!');
-                
-                displayData(data.result);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+    <script src="Dashboard/js/postRecord.js"></script>
 
-        function displayData(data) {
-            const resultDiv = document.getElementById('result');
-            const parsedData = JSON.parse(data);
-            const table = document.createElement('table');
-            const headerRow = document.createElement('tr');
-
-            // Create header row
-            const headers = ['Date', 'Open'];
-            headers.forEach(headerText => {
-                const header = document.createElement('th');
-                header.textContent = headerText;
-                headerRow.appendChild(header);
-            });
-            table.appendChild(headerRow);
-
-            // Create data rows
-            parsedData.index.forEach((date, index) => {
-                const row = document.createElement('tr');
-                const dateCell = document.createElement('td');
-                dateCell.textContent = date;
-                row.appendChild(dateCell);
-
-                const openCell = document.createElement('td');
-                openCell.textContent = parsedData.data[index][0];
-                row.appendChild(openCell);
-
-                table.appendChild(row);
-            });
-
-            // Clear previous results
-            resultDiv.innerHTML = '';
-            resultDiv.appendChild(table);
-        }
-    </script>
 </body>
 
 </html>
