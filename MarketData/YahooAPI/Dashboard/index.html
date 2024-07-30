@@ -2,52 +2,31 @@
 <html lang="en">
 
 <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TAP project Dashboard </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAP project Dashboard </title>
 
-        <!-- MATERIAL ICONS CDN-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <!-- MATERIAL ICONS CDN-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
 
-        <!-- GOOGLE FONTS (POPPINS)-->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-                rel="stylesheet">
+    <!-- GOOGLE FONTS (POPPINS)-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        <!-- STYLESHEET -->
-        <link rel="stylesheet" href="css/style/root.css">
-        <link rel="stylesheet" href="css/style/navBar.css">
+    <!-- STYLESHEET -->
+    <link rel="stylesheet" href="Dashboard/css/root.css">
+    <link rel="stylesheet" href="Dashboard/css/navBar.css">
+
 </head>
 
 <body>
-        <button onclick="callPythonCode()"> TESTING BUTTON </button>
+    <button class="button" onclick="callPostRecord()"> TESTING THE POST BUTTON API </button>
+    <div id="result"></div>
 
-        <script>
-                function callPythonCode() {
-                        fetch('/run_python_code', {
-                                method: 'POST',
-                                headers: {
-                                        'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                        name: 'AAPL',
-                                        start: '2022-01-01',
-                                        end: '2022-12-31',
-                                        interval: '1d'
-                                })
-                        })
-                                .then(response => response.json())
-                                .then(data => {
-                                        console.log(data.result);
-                                        alert('Python code executed successfully!');
-                                })
-                                .catch(error => {
-                                        console.error('Error:', error);
-                                });
-                }
-        </script>
+    <script src="Dashboard/js/postRecord.js"></script>
+
 </body>
 
 </html>
