@@ -22,11 +22,45 @@
 </head>
 
 <body>
-    <button class="button" onclick="callPostRecord()"> TESTING THE POST BUTTON API </button>
-    <div id="result"></div>
+<!--    <button class="button" onclick="callPostRecord()"> TESTING THE POST BUTTON API </button>-->
+<!--    <div id="result"></div>-->
 
-    <script src="Dashboard/js/postRecord.js"></script>
+<!--    <script src="Dashboard/js/postRecord.js"></script>-->
+<main>
+      <button class="button" onclick="callPostRecord()">TESTING THE POST BUTTON API</button>
+      <div id="result"></div>
+      <script src="Dashboard/js/postRecord.js"></script>
 
+      <h1>Assets</h1>
+      <table class="assetsTable">
+        <thead>
+          <tr class="trAssets">
+<!--            <th>Asset ID</th>-->
+            <th>Asset Name</th>
+            <th>Purchase Date</th>
+            <th>Purchase Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if assets %}
+            {% for asset in assets %}
+              <tr>
+<!--                <td>{{ asset.asset_id }}</td>-->
+                <td>{{ asset.asset_name }}</td>
+                <td>{{ asset.purchase_date }}</td>
+                <td>{{ asset.purchase_price }}</td>
+                <td>{{ asset.quantity }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5">No assets found</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+</main>
 </body>
 
 </html>

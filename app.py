@@ -27,10 +27,14 @@ def parse_request(data):
     return name, start, end, interval
 
 
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    assets = fetch_assets()
+    return render_template('index.html', assets=assets)
 
 @app.route('/run_python_code', methods=['POST'])
 def run_python_code():
@@ -59,7 +63,13 @@ def get_market_data_api(stock, start_date, end_date, interval):
 @app.route('/assets', methods=['GET'])
 def get_assets():
     assets = fetch_assets()
-    return jsonify(assets), 200
+    print(assets)
+    return render_template('index.html', assets=assets),200
+    # return jsonify(assets),200
+    # assets = fetch_assets()
+    # print(assets)
+    # return render_template('index.html', assets=assets)
+    # return jsonify(assets), 200
 
 @app.route("/api/get_current_price/<string:stock>")
 def get_current_price_api(stock):
