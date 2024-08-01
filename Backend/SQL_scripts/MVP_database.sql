@@ -2,48 +2,52 @@ CREATE DATABASE financial_portfolio;
 
 USE financial_portfolio;
 
-CREATE TABLE Assets (
-asset_id INT AUTO_INCREMENT PRIMARY KEY,
-asset_name VARCHAR(255) NOT NULL,
-purchase_date DATE,
-purchase_price DECIMAL(15, 2),
-quantity DECIMAL(15, 2)
+CREATE TABLE Category (
+    name VARCHAR(255) PRIMARY KEY,
+    description TEXT
 );
 
-CREATE TABLE Categories (
-category_id INT AUTO_INCREMENT PRIMARY KEY,
-category_name VARCHAR(255) NOT NULL,
-category_description TEXT
+CREATE TABLE Asset (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    symbol VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255),
+    category_name VARCHAR(255),
+    total_purchase_price DECIMAL(15, 2) DEFAULT 0.00,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_name) REFERENCES Category(name)
 );
 
-CREATE TABLE Asset_Category (
-asset_id INT,
-category_id INT,
-FOREIGN KEY (asset_id) REFERENCES Assets(asset_id),
-FOREIGN KEY (category_id) REFERENCES Categories(category_id),
-PRIMARY KEY (asset_id, category_id)
+CREATE TABLE Transaction (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    asset_id INT,
+    transaction_type ENUM('buy', 'sell', 'cash_in', 'cash_out'),
+    quantity DECIMAL(15, 2) DEFAULT NULL,
+    price DECIMAL(15, 2) DEFAULT NULL,
+    transaction_date DATETIME,
+    FOREIGN KEY (asset_id) REFERENCES Asset(id)
 );
 
--- INSERTING EXAMPLE DATA
+-- Insert categories into Category table
+INSERT INTO Category (name, description) VALUES
+('Stock', 'Equities or shares in a company'),
+('Bond', 'Debt securities issued by governments or corporations'),
+('Cash', 'Physical cash or cash equivalents'),
+('Real_Estate', 'Properties and land'),
+('Valuables', 'Precious items such as jewelry or collectibles');
 
-INSERT INTO Assets (asset_name, purchase_date, purchase_price, quantity)
-VALUES
-('Apple', '2024-01-01', 150.00, 10),
-('ABC', '2024-06-01', 1000.00, 5),
-('250 King St. Toronto', '2022-12-10', 50000.00, 1);
+-- Insert data into Asset table
+INSERT INTO Asset (symbol, name, category_name, total_purchase_price) VALUES
+('AAPL', 'Apple Inc.', 'Stock', 1500.00),
+('GOOG', 'Alphabet Inc.', 'Stock', 5000.00),
+('TLT', 'iShares 20+ Year Treasury Bond ETF', 'Bond', 2000.00),
+('CASH', 'Cash Fund', 'Cash', 100500.00),
+('Property 101', 'Beachfront Property', 'Real_Estate', 300000.00),
+('Gold Necklace', 'Gold and Diamond Necklace', 'Valuables', 10000.00);
 
-INSERT INTO Categories (category_name, category_description)
-VALUES
-('Stocks', 'Various stock investments'),
-('Bonds', 'Different types of bonds'),
-('Real Estate', 'Properties and real estate investments'),
-('Cash', 'Liquid Funds'),
-('Valuables', 'Valuable Items');
-
-INSERT INTO Asset_Category (asset_id, category_id)
-VALUES
-(1, 1), -- Stock A belongs to Stocks
-(2, 2), -- Bond B belongs to Bonds
-(3, 3); -- Real Estate C belongs to Real Estate
-
-select * from Assets;
+-- Insert data into Transaction table
+INSERT INTO Transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES
+(1, 'buy', 10, 150.00, '2024-07-01 10:30:00'),  -- Buying an asset
+(2, 'sell', 5, 1000.00, '2024-07-01 11:00:00'), -- Selling an asset
+(4, 'cash_in', NULL, 5000.00, '2024-07-01 12:00:00'),  -- Depositing cash
+(4, 'cash_out', NULL, 200.00, '2024-07-02 09:00:00'); -- Spending cash
