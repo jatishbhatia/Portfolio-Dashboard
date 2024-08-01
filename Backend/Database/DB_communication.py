@@ -1,5 +1,8 @@
 import mysql.connector
-from mysql.connector import Error
+from mysql.connector import Error, ProgrammingError
+
+database_create_script = "../../SQL_scripts/MVP_database.sql"
+
 
 def establish_connection():
     """
@@ -9,18 +12,30 @@ def establish_connection():
         connection (mysql.connector.connection_cext.CMySQLConnection): MySQL connection object
     """
     try:
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="c0nygre",
-            database="financial_portfolio"
-        )
-        if connection.is_connected():
-            print("Connection established successfully.")
-            return connection
+        connect_to_db()
+    except ProgrammingError as e:
+        if e.errno == 1049:
+            print("Creating database")
+            execute_sql_script(database_create_script)
+            connect_to_db()
+        else:
+            print(f"Error: {e}")
+            return None
     except Error as e:
         print(f"Error: {e}")
         return None
+
+
+def connect_to_db():
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="c0nygre",
+        database="financial_portfolio"
+    )
+    if connection.is_connected():
+        print("Connection established successfully.")
+        return connection
 
 def close_connection(connection):
     """
@@ -34,6 +49,7 @@ def close_connection(connection):
         print("Connection closed.")
 
 ### Asset Operations ###
+
 
 def create_asset(asset_name, purchase_date, purchase_price, quantity):
     """
@@ -66,6 +82,7 @@ def create_asset(asset_name, purchase_date, purchase_price, quantity):
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def fetch_assets():
     """
@@ -102,6 +119,7 @@ def fetch_assets():
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def update_asset(asset_id, asset_name=None, purchase_date=None, purchase_price=None, quantity=None):
     """
@@ -150,6 +168,7 @@ def update_asset(asset_id, asset_name=None, purchase_date=None, purchase_price=N
         cursor.close()
         close_connection(connection)
 
+
 def delete_asset(asset_id):
     """
     Deletes an asset from the database.
@@ -176,6 +195,7 @@ def delete_asset(asset_id):
         close_connection(connection)
 
 ### Category Operations ###
+
 
 def create_category(category_name, category_description):
     """
@@ -206,6 +226,7 @@ def create_category(category_name, category_description):
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def fetch_categories():
     """
@@ -240,6 +261,7 @@ def fetch_categories():
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def update_category(category_id, category_name=None, category_description=None):
     """
@@ -280,6 +302,7 @@ def update_category(category_id, category_name=None, category_description=None):
         cursor.close()
         close_connection(connection)
 
+
 def delete_category(category_id):
     """
     Deletes a category from the database.
@@ -306,6 +329,7 @@ def delete_category(category_id):
         close_connection(connection)
 
 ### Asset_Category Operations ###
+
 
 def create_asset_category(asset_id, category_id):
     """
@@ -336,6 +360,7 @@ def create_asset_category(asset_id, category_id):
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def fetch_asset_categories():
     """
@@ -370,6 +395,7 @@ def fetch_asset_categories():
         cursor.close()
         close_connection(connection)
 
+
 def delete_asset_category(asset_id, category_id):
     """
     Deletes an asset-category mapping from the database.
@@ -395,3 +421,30 @@ def delete_asset_category(asset_id, category_id):
     finally:
         cursor.close()
         close_connection(connection)
+
+
+def execute_sql_script(path:str):
+
+    try:
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="c0nygre"
+        )
+        cursor = connection.cursor(buffered=True)
+
+        with open(path) as file:
+            script = file.read()
+
+        for sql_statement in script.split(';'):
+            sql_statement = sql_statement.strip()
+            cursor.execute(sql_statement)
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"Database creation failed: {e}")
+
+
+establish_connection()
