@@ -10,7 +10,7 @@ def get_market_data(name: str, start: datetime, end: datetime, interval: str):
     """
     start_date = start.strftime('%Y-%m-%d')
     end_date = end.strftime('%Y-%m-%d')
-    return yf.download(name, start=start_date, end=end_date, interval=interval)[['Open']]
+    return yf.download(name, start=start_date, end=end_date, interval=interval)[['Open', 'High', 'Low', 'Close']]
 
 
 def get_current_price(stock_name: str):
