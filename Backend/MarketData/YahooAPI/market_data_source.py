@@ -22,3 +22,10 @@ def get_current_price(stock_name: str):
 def get_stock_info(stock_name):
     ticker = yf.Ticker(stock_name)
     return ticker.info
+
+
+def get_asset_name(ticker_name: str) -> str:
+    return get_stock_info(ticker_name)["longName"]
+
+
+print(get_asset_name("AAPL"))
