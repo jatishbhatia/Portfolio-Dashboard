@@ -26,11 +26,6 @@ def parse_request(data):
     interval = data.get('interval', '1d')
     return name, start, end, interval
 
-
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
-
 @app.route('/')
 def index():
     assets = fetch_assets()

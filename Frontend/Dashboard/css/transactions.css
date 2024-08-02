@@ -61,3 +61,11 @@ main .recent-transactions .card-details .card {
   border-radius: var(--border-radius-2);
 }
 
+/* Scrollbar section for investments*/
+main .recent-transactions {
+  /*background: var(--color-white);*/
+  border-radius: var(--card-border-square);
+  max-height: 450px;
+  overflow-y: auto;
+  margin-top: 8rem;
+}

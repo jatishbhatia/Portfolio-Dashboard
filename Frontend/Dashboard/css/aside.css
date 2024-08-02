@@ -11,7 +11,7 @@ main aside {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: 60vh;
 }
 
 /* the x will only be shown on ipads and mobiles  */
@@ -34,7 +34,7 @@ main aside .sidebar a span {
   transition: all 300ms ease;
 }
 
-main aside .sidebar a.active {
+main aside .sidebar a.sidebar-link-active {
   background-color: var(--color-white);
   color: var(--color-primary);
 }
