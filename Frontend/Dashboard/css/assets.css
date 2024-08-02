@@ -1,0 +1,20 @@
+/* ======= ASSETS TABLE ======= */
+
+main .assetsTable {
+        width: 100%;
+        border-collapse: collapse;
+}
+
+main .assetsTable .trAssets th td {
+        border: 2px solid black;
+}
+
+.trAssets th {
+        background-color: rgb(201, 83, 83);
+        color: white;
+}
+
+main .assetsTable th td {
+        padding: 8px;
+        text-align: left;
+}
