@@ -40,5 +40,9 @@ main section.right .investments .investment:hover {
   cursor: pointer;
 }
 
-
-/* ====================== RECENT TRANSACTIONS ====================== */
+/* Scrollbar section for investments*/
+main section.right .investments {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 2rem;
+}

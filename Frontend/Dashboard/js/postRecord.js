@@ -29,45 +29,54 @@ function callPostRecord() {
 }
 
 function displayData(data, stock, start_date, end_date, interval) {
-        const resultDiv = document.getElementById('result');
-        const table = document.createElement('table');
-        const headerRow = document.createElement('tr');
+    const resultDiv = document.getElementById('result');
+    const table = document.createElement('table');
+    table.classList.add('apiDataTable'); // Add a class to the table
 
-        // Create header row
-        const headers = ['Stock', 'Start Date', 'End Date', 'Interval'];
-        headers.forEach(headerText => {
-                const header = document.createElement('th');
-                header.textContent = headerText;
-                headerRow.appendChild(header);
-        });
-        table.appendChild(headerRow);
+    const headerRow = document.createElement('tr');
+    headerRow.classList.add('apiHeaderRow'); // Add a class to the header row
 
-        // Create data row
-        const dataRow = document.createElement('tr');
+    // Create header row
+    const headers = ['Stock', 'Start Date', 'End Date', 'Interval'];
+    headers.forEach(headerText => {
+        const header = document.createElement('th');
+        header.classList.add('apiHeaderCell'); // Add a class to header cells
+        header.textContent = headerText;
+        headerRow.appendChild(header);
+    });
+    table.appendChild(headerRow);
 
-        // Symbol cell
-        const symbolCell = document.createElement('td');
-        symbolCell.textContent = stock;
-        dataRow.appendChild(symbolCell);
+    // Create data row
+    const dataRow = document.createElement('tr');
+    dataRow.classList.add('apiDataRow'); // Add a class to the data row
 
-        // Start Date cell
-        const startDateCell = document.createElement('td');
-        startDateCell.textContent = start_date;
-        dataRow.appendChild(startDateCell);
+    // Symbol cell
+    const symbolCell = document.createElement('td');
+    symbolCell.classList.add('apiDataCell'); // Add a class to data cells
+    symbolCell.textContent = stock;
+    dataRow.appendChild(symbolCell);
 
-        // End Date cell
-        const endDateCell = document.createElement('td');
-        endDateCell.textContent = end_date;
-        dataRow.appendChild(endDateCell);
+    // Start Date cell
+    const startDateCell = document.createElement('td');
+    startDateCell.classList.add('apiDataCell'); // Add a class to data cells
+    startDateCell.textContent = start_date;
+    dataRow.appendChild(startDateCell);
 
-        // Interval cell
-        const intervalCell = document.createElement('td');
-        intervalCell.textContent = interval;
-        dataRow.appendChild(intervalCell);
+    // End Date cell
+    const endDateCell = document.createElement('td');
+    endDateCell.classList.add('apiDataCell'); // Add a class to data cells
+    endDateCell.textContent = end_date;
+    dataRow.appendChild(endDateCell);
 
-        table.appendChild(dataRow);
+    // Interval cell
+    const intervalCell = document.createElement('td');
+    intervalCell.classList.add('apiDataCell'); // Add a class to data cells
+    intervalCell.textContent = interval;
+    dataRow.appendChild(intervalCell);
 
-        // Clear previous results
-        resultDiv.innerHTML = '';
-        resultDiv.appendChild(table);
+    table.appendChild(dataRow);
+
+    // Clear previous results
+    resultDiv.innerHTML = '';
+    resultDiv.appendChild(table);
 }
