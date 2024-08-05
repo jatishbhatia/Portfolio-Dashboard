@@ -3,7 +3,8 @@ from datetime import datetime
 import mysql.connector
 from mysql.connector import Error, ProgrammingError
 
-database_create_script = "Backend/SQL_scripts/MVP_database.sql"
+database_create_script = "../SQL_scripts/MVP_database.sql"
+# database_create_script = "Backend/SQL_scripts/MVP_database.sql"
 
 
 def establish_connection():
@@ -116,7 +117,8 @@ def create_asset(symbol, name, category_name, total_purchase_price, quantity):
             (symbol, name, category_name, total_purchase_price, quantity)
         )
         connection.commit()
-        return {'message': 'Asset created'}, 201
+        asset_id = cursor.lastrowid
+        return asset_id, {'message': 'Asset created'}, 201
     except mysql.connector.Error as err:
         return {'error': str(err)}, 400
     finally:
@@ -176,8 +178,11 @@ def create_transaction(asset_id, transaction_type, quantity, price, transaction_
     connection = connect_to_db()
     cursor = connection.cursor()
     try:
+        quantity = str(quantity)
+        price = str(price)
+        asset_id = str(asset_id)
         cursor.execute(
-            "INSERT INTO Transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES (%s, %s, %s, %s, %s)",
+            "INSERT INTO transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES (%s, %s, %s, %s, %s)",
             (asset_id, transaction_type, quantity, price, transaction_date)
         )
         connection.commit()
@@ -283,11 +288,13 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
                 return update_result
         else:
             # Asset does not exist, create it
-            asset_id = create_asset(input_symbol, long_name, 'Stock', purchase_price * input_quantity, input_quantity)
+            asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock', purchase_price * input_quantity, input_quantity)
+            if status_code != 201:
+                return create_result
 
         # Insert the transaction record
         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        transaction_result = create_transaction(asset_id, 'Buy', input_quantity, purchase_price, current_timestamp)
+        transaction_result = create_transaction(asset_id, 'buy', input_quantity, purchase_price, current_timestamp)
         if 'error' in transaction_result:
             return transaction_result
 
@@ -300,3 +307,8 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
         close_connection(connection)
 
 establish_connection()
+
+# print(buy_stock('AAPLA', 'yo', 6, 10))
+# print(read_assets())
+# print("\n--------------------------\nTRANSACTIONS\n")
+# print(read_transactions())
