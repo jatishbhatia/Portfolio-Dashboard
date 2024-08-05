@@ -4,9 +4,9 @@ from datetime import datetime
 from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, \
     get_stock_info  # Import your function here
 from Backend.Database.DB_communication import (
-    create_asset, fetch_assets, update_asset, delete_asset,
-    create_category, fetch_categories, update_category, delete_category,
-    create_asset_category, fetch_asset_categories, delete_asset_category
+    create_asset, read_assets, update_asset, delete_asset,
+    create_category, read_categories, update_category, delete_category,
+    create_transaction, read_transactions, update_transaction, delete_transaction
 )
 
 
@@ -36,7 +36,7 @@ def parse_request(data):
 
 @app.route('/')
 def index():
-    assets = fetch_assets()
+    assets = read_assets()
     return render_template('index.html', assets=assets)
 
 
@@ -67,7 +67,7 @@ def get_market_data_api(stock, start_date, end_date, interval):
 
 @app.route('/assets', methods=['GET'])
 def get_assets():
-    assets = fetch_assets()
+    assets = read_assets()
     print(assets)
     return render_template('index.html', assets=assets), 200
     # return jsonify(assets),200
@@ -89,7 +89,7 @@ def get_stock_info_api(stock):
 
 @app.route("/api/get_net_value")
 def get_net_value():
-    assets = fetch_assets()
+    assets = read_assets()
     total_value = 0
     for asset in assets:
         stock_value = get_current_price(asset["symbol"])
