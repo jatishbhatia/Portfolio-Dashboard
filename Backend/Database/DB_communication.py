@@ -1,11 +1,19 @@
 import mysql.connector
 from mysql.connector import Error, ProgrammingError
 
-database_create_script = "../SQL_scripts/MVP_database.sql"
+database_create_script = "Backend/SQL_scripts/MVP_database.sql"
 
 
 def establish_connection():
     try:
+        connection = connect_to_db()
+        cursor = connection.cursor()
+        cursor.execute("DROP DATABASE financial_portfolio;")
+        connection.commit()
+        cursor.close()
+        close_connection(connection)
+        print("Creating database")
+        execute_sql_script(database_create_script)
         connect_to_db()
     except ProgrammingError as e:
         if e.errno == 1049:
@@ -251,4 +259,3 @@ def execute_sql_script(path:str):
 
 
 establish_connection()
-print(read_assets())

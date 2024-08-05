@@ -22,7 +22,6 @@ app = Flask(
 app.config.from_object(CashAmount)
 
 
-
 def parse_request(data):
     """
     Helper function to parse the request data and return the parameters for get_market_data.
@@ -98,9 +97,24 @@ def get_net_value():
     return total_value
 
 
-@app.route("api/add_funds/<int:deposit_amount>")
+@app.route("/api/add_funds/<int:deposit_amount>")
 def add_funds(deposit_amount):
     CashAmount.USD += deposit_amount
+
+
+@app.route("/api/get_unrealized_profit")
+def get_unrealized_profit():
+    assets = read_assets()
+    profit = 0
+    for asset in assets:
+        profit += get_asset_unrealized_profit(asset)
+    return profit
+
+
+def get_asset_unrealized_profit(asset):
+    purchase_price_total = asset["total_purchase_price"]
+    total_current_asset_value = asset["quantity"] * get_current_price(asset["symbol"])
+    return total_current_asset_value - purchase_price_total
 
 
 if __name__ == '__main__':
