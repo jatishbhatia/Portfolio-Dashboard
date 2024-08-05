@@ -124,6 +124,5 @@ def buy_stock_endpoint():
     return jsonify(result), status_code
 
 
-
 if __name__ == '__main__':
     app.run(debug=True)

@@ -259,14 +259,14 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
 
         # Check if the asset already exists
         cursor.execute(
-            "SELECT id, total_purchase_price , quantity FROM asset WHERE symbol = %s AND category_name = 'Stock'",
+            "SELECT id, name, total_purchase_price, quantity FROM asset WHERE symbol = %s AND category_name = 'Stock'",
             (input_symbol,)
         )
         result = cursor.fetchone()
 
         if result:
             # Asset exists, update it
-            asset_id, total_purchase_price, existing_quantity = result
+            asset_id, long_name, total_purchase_price, existing_quantity = result
             new_quantity = existing_quantity + input_quantity
             new_total_purchase_price = total_purchase_price + (purchase_price * input_quantity)
             update_result = update_asset(asset_id, input_symbol, long_name, "Stock",
@@ -292,4 +292,6 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
         close_connection(connection)
 
 establish_connection()
+# print(buy_stock('AAPL', 'yo', 200, 10))
 print(read_assets())
+print(read_transactions())
