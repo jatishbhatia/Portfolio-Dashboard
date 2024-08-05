@@ -3,11 +3,19 @@ from datetime import datetime
 import mysql.connector
 from mysql.connector import Error, ProgrammingError
 
-database_create_script = "../../SQL_scripts/MVP_database.sql"
+database_create_script = "Backend/SQL_scripts/MVP_database.sql"
 
 
 def establish_connection():
     try:
+        connection = connect_to_db()
+        cursor = connection.cursor()
+        cursor.execute("DROP DATABASE financial_portfolio;")
+        connection.commit()
+        cursor.close()
+        close_connection(connection)
+        print("Creating database")
+        execute_sql_script(database_create_script)
         connect_to_db()
     except ProgrammingError as e:
         if e.errno == 1049:
@@ -292,6 +300,3 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
         close_connection(connection)
 
 establish_connection()
-# print(buy_stock('AAPL', 'yo', 200, 10))
-print(read_assets())
-print(read_transactions())
