@@ -1,53 +1,39 @@
 /* ======= ASSETS TABLE ======= */
- main .assetsTable {
-        width: 100%;
-        border-collapse: collapse;
-        background: var(--color-white);
-        margin-top: 2rem;
-        border-radius: var(--card-border-radius);
-}
-
- main .assetsSection{
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-top: 2rem;
-    margin-bottom: 1rem; /* Adjust if needed to match spacing */
-}
-
-/* creating a scrollBar when they have more than 3 records in the database*/
-main .tableContainer {
-    max-height: 200px;
-    overflow-y: auto;
-    margin-top: 2rem;
-}
-
 main .assetsTable {
     width: 100%;
     border-collapse: collapse;
     background: var(--color-white);
+    margin-top: 1rem;
     border-radius: var(--card-border-radius);
+    padding: 0.5rem 2rem;
 }
 
-main .assetsTable .trAssets th td {
-        border: 2px solid black;
+main .assetsSection {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Creating a scrollbar when there are more than 3 records in the database */
+main .tableContainer {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+main .assetsTable th, main .assetsTable td {
+    padding: 8px;
+    text-align: left;
+    border: none; /* Remove borders from th and td */
 }
 
 .trAssets th {
-        background-color: rgb(201, 83, 83);
-        color: white;
-}
-
-main .assetsTable th td {
-        padding: 8px;
-        text-align: left;
+    background-color: rgb(201, 83, 83);
+    color: white;
 }
 
 main .assetsTable tr td {
     color: black;
-}
-
-main .assetsTable {
-  padding: 0.5rem 2rem;
-  background: var(--color-white);
 }

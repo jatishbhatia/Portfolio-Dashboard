@@ -7,32 +7,39 @@
     border-radius: var(--card-border-radius);
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: none; /* Remove the table border */
 }
 
 .apiHeaderRow {
     background-color: var(--primary-color);
     color: var(--color-white);
+    border: none; /* Remove the header row border */
 }
 
 .apiHeaderCell {
     padding: 0.5rem;
     text-align: left;
     font-weight: bold;
+    border: none; /* Remove the header cell border */
 }
 
 .apiDataRow {
-    border-top: 1px solid #ddd;
+    background-color: #f9f9f9; /* Alternate row color */
+    border: none; /* Remove the data row border */
 }
 
 .apiDataRow:nth-child(even) {
     background-color: #f9f9f9;
+    border: none; /* Remove the border for even rows */
 }
 
 .apiDataCell {
     padding: 0.5rem;
     text-align: left;
+    border: none; /* Remove the data cell border */
 }
-.apiPostData{
+
+.apiPostData {
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
