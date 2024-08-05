@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- STYLESHEET -->
+    <!-- STYLESHEETS -->
     <link rel="stylesheet" href="Dashboard/css/root.css">
     <link rel="stylesheet" href="Dashboard/css/navBar.css">
     <link rel="stylesheet" href="Dashboard/css/main.css">
@@ -24,15 +24,15 @@
     <link rel="stylesheet" href="Dashboard/css/details.css">
     <link rel="stylesheet" href="Dashboard/css/investments.css">
     <link rel="stylesheet" href="Dashboard/css/transactions.css">
-    <link rel="stylesheet" href="Dashboard/css/screenView.css">
     <link rel="stylesheet" href="Dashboard/css/apiCssPostRecord.css">
-
+    <link rel="stylesheet" href="Dashboard/css/screenView.css">
+    <link rel="stylesheet" href="Dashboard/css/cardSide.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav>
         <div class="container">
-            <img src="Dashboard/img/logo.png" class="logo">
+            <img src="Dashboard/img/logo.png" class="logo" alt="Logo">
             <div class="search-bar">
                 <span class="material-icons-sharp">search</span>
                 <input type="search" placeholder="Search">
@@ -46,7 +46,7 @@
                 </div>
                 <div class="profile">
                     <div class="profile-photo">
-                        <img src="Dashboard/img/profile-4.jpg">
+                        <img src="Dashboard/img/profile-4.jpg" alt="Profile Photo">
                     </div>
                     <h5>Jermaine Cole</h5>
                     <span class="material-icons-sharp">expand_more</span>
@@ -113,175 +113,13 @@
         </aside>
         <!-- END OF ASIDE -->
 
-
         <section class="middle">
             <section id="wallet-section" class="content-section">
                 <div class="header">
                     <h1>Overview</h1>
                     <input type="date">
                 </div>
-                <div class="cards">
-                    <div class="card">
-                        <div class="top">
-                            <div class="left">
-                                <img src="Dashboard/img/BTC.png" />
-                                <h2>BTC</h2>
-                            </div>
-                            <img src="Dashboard/img/visa1.png" class="cardTypeEdit">
-                        </div>
-                        <div class="middle">
-                            <h1>$78,908</h1>
-                            <div class="chip">
-                                <img src="Dashboard/img/maincardchip.png">
-                            </div>
-                        </div>
-                        <div class="bottom">
-                            <div class="left">
-                                <small>Card Holder</small>
-                                <h5>JOHN BTC</h5>
-                            </div>
-                            <div class="right">
-                                <div class="expiry">
-                                    <small>Expiry</small>
-                                    <h5>08/23</h5>
-                                </div>
-                                <div class="cvv">
-                                    <small>CVV</small>
-                                    <h5>786</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END OF CARD 1 -->
 
-                    <div class="card">
-                        <div class="top">
-                            <div class="left">
-                                <img src="Dashboard/img/eth.png" />
-                                <h2>ETH</h2>
-                            </div>
-                            <img src="Dashboard/img/mainmastercard.png" class="cardTypeEdit">
-                        </div>
-                        <div class="middle">
-                            <h1>$78,908</h1>
-                            <div class="chip">
-                                <img src="Dashboard/img/maincardchip.png">
-                            </div>
-                        </div>
-                        <div class="bottom">
-                            <div class="left">
-                                <small>Card Holder</small>
-                                <h5>JOHN ETH</h5>
-                            </div>
-                            <div class="right">
-                                <div class="expiry">
-                                    <small>Expiry</small>
-                                    <h5>08/23</h5>
-                                </div>
-                                <div class="cvv">
-                                    <small>CVV</small>
-                                    <h5>786</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END OF CARD 2 -->
-
-                    <div class="card">
-                        <div class="top">
-                            <div class="left">
-                                <img src="Dashboard/img/BTC.png" />
-                                <h2>BTC</h2>
-                            </div>
-                            <img src="Dashboard/img/visa1.png" class="cardTypeEdit">
-                        </div>
-                        <div class="middle">
-                            <h1>$78,908</h1>
-                            <div class="chip">
-                                <img src="Dashboard/img/maincardchip.png">
-                            </div>
-                        </div>
-                        <div class="bottom">
-                            <div class="left">
-                                <small>Card Holder</small>
-                                <h5>JOHN BTC</h5>
-                            </div>
-                            <div class="right">
-                                <div class="expiry">
-                                    <small>Expiry</small>
-                                    <h5>08/23</h5>
-                                </div>
-                                <div class="cvv">
-                                    <small>CVV</small>
-                                    <h5>786</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END OF CARD 3 -->
-                </div>
-                <!-- END OF CARDS -->
-            </section>
-
-            <section id="fast-payment-section" class="content-section">
-                <div class="fast-payment">
-                    <h2>Fast Payments</h2>
-                    <div class="badges">
-                        <div class="badge">
-                            <span class="material-icons-sharp">add</span>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-primary"></span>
-                            <div>
-                                <h5>Training</h5>
-                                <h4>$50</h4>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-success"></span>
-                            <div>
-                                <h5>Internet</h5>
-                                <h4>$40</h4>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-danger"></span>
-                            <div>
-                                <h5>Gas</h5>
-                                <h4>$150</h4>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-primary"></span>
-                            <div>
-                                <h5>Movies</h5>
-                                <h4>$35</h4>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-primary"></span>
-                            <div>
-                                <h5>Education</h5>
-                                <h4>$990</h4>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-danger"></span>
-                            <div>
-                                <h5>Electricity</h5>
-                                <h4>$109</h4>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <span class="bg-danger"></span>
-                            <div>
-                                <h5>Food</h5>
-                                <h4>$245</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END OF FAST PAYMENTS -->
             </section>
 
             <section id="assets-section" class="content-section">
@@ -292,8 +130,9 @@
                             <thead>
                                 <tr class="trAssets">
                                     <th>Asset Name</th>
-                                    <th>Purchase Date</th>
+                                    <th>Category</th>
                                     <th>Purchase Price</th>
+                                    <th>Total Value</th>
                                     <th>Quantity</th>
                                 </tr>
                             </thead>
@@ -302,14 +141,15 @@
                                 {% for asset in assets %}
                                 <tr>
                                     <td>{{ asset.asset_name }}</td>
-                                    <td>{{ asset.purchase_date }}</td>
+                                    <td>{{ asset.asset_category }}</td>
                                     <td>{{ asset.purchase_price }}</td>
+                                    <td>{{ asset.total_value }}</td>
                                     <td>{{ asset.quantity }}</td>
                                 </tr>
                                 {% endfor %}
                                 {% else %}
                                 <tr>
-                                    <td colspan="4">No assets found</td>
+                                    <td colspan="5">No assets found</td>
                                 </tr>
                                 {% endif %}
                             </tbody>
@@ -337,124 +177,49 @@
             </section>
         </section>
 
-
         <section class="right">
+
             <section id="investments-section" class="content-section">
-                <div class="investments">
-                    <div class="header">
-                        <h2>Investments</h2>
-                        <a href="#">More <span class="material-icons-sharp">chevron_right</span></a>
+                <!-- card on the side -->
+                <section class="cardSide">
+                    <h2> Wallet Balance</h2>
+                    <div class="cards">
+                        <div class="card">
+                            <div class="top">
+                                <div class="left">
+                                    <img src="Dashboard/img/BTC.png" />
+                                    <h2>BTC</h2>
+                                </div>
+                                <img src="Dashboard/img/visa1.png" class="cardTypeEdit">
+                            </div>
+                            <div class="middle">
+                                <h1>$78,908</h1>
+                                <div class="chip">
+                                    <img src="Dashboard/img/maincardchip.png">
+                                </div>
+
+                            </div>
+                            <div class="bottom">
+                                <div class="left">
+                                    <small>Card Holder</small>
+                                    <h5>JOHN BTC</h5>
+                                </div>
+                                <div class="right">
+                                    <div class="expiry">
+                                        <small>Expiry</small>
+                                        <h5>08/23</h5>
+                                    </div>
+                                    <div class="cvv">
+                                        <small>CVV</small>
+                                        <h5>786</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="investment">
-                        <img src="Dashboard/img/unilever.png">
-                        <h4>Unilever</h4>
-                        <div class="date-time">
-                            <p>7 Nov, 2021</p>
-                            <small class="text-muted">9:14pm</small>
-                        </div>
-                        <div class="date-time">
-                            <p>1402</p>
-                            <small class="text-muted">9:14pm</small>
-                        </div>
-                        <div class="amount">
-                            <h4>$20,033</h4>
-                            <small class="danger">-4.27%</small>
-                        </div>
-                    </div>
-                    <!-- END OF INVESTMENT -->
-
-                    <div class="investment">
-                        <img src="Dashboard/img/tesla.jpg">
-                        <h4>Tesla</h4>
-                        <div class="date-time">
-                            <p>1 Dec, 2021</p>
-                            <small class="text-muted">11:54am</small>
-                        </div>
-                        <div class="date-time">
-                            <p>5377</p>
-                            <small class="text-muted">Bonds</small>
-                        </div>
-                        <div class="amount">
-                            <h4>$74,033</h4>
-                            <small class="success">+38.27%</small>
-                        </div>
-                    </div>
-                    <!-- END OF INVESTMENT -->
-
-                    <div class="investment">
-                        <img src="Dashboard/img/monster.png">
-                        <h4>Monster</h4>
-                        <div class="date-time">
-                            <p>1 Dec, 2021</p>
-                            <small class="text-muted">9:14pm</small>
-                        </div>
-                        <div class="date-time">
-                            <p>700</p>
-                            <small class="text-muted">Bonds</small>
-                        </div>
-                        <div class="amount">
-                            <h4>$12,033</h4>
-                            <small class="success">1.87%</small>
-                        </div>
-                    </div>
-                    <!-- END OF INVESTMENT -->
-
-                    <div class="investment">
-                        <img src="Dashboard/img/mcdonalds.png">
-                        <h4>McDONALDS</h4>
-                        <div class="date-time">
-                            <p>3 Jan, 2022</p>
-                            <small class="text-muted">5:36am</small>
-                        </div>
-                        <div class="date-time">
-                            <p>4578</p>
-                            <small class="text-muted">Bonds</small>
-                        </div>
-                        <div class="amount">
-                            <h4>$756,654</h4>
-                            <small class="danger">-8.24%</small>
-                        </div>
-                    </div>
-                    <!-- END OF INVESTMENT -->
-
-                    <div class="investment">
-                        <img src="Dashboard/img/mcdonalds.png">
-                        <h4>McDONALDS</h4>
-                        <div class="date-time">
-                            <p>3 Jan, 2022</p>
-                            <small class="text-muted">5:36am</small>
-                        </div>
-                        <div class="date-time">
-                            <p>4578</p>
-                            <small class="text-muted">Bonds</small>
-                        </div>
-                        <div class="amount">
-                            <h4>$756,654</h4>
-                            <small class="danger">-8.24%</small>
-                        </div>
-                    </div>
-                    <!-- END OF INVESTMENT -->
-
-                    <div class="investment">
-                        <img src="Dashboard/img/mcdonalds.png">
-                        <h4>McDONALDS</h4>
-                        <div class="date-time">
-                            <p>3 Jan, 2022</p>
-                            <small class="text-muted">5:36am</small>
-                        </div>
-                        <div class="date-time">
-                            <p>4578</p>
-                            <small class="text-muted">Bonds</small>
-                        </div>
-                        <div class="amount">
-                            <h4>$756,654</h4>
-                            <small class="danger">-8.24%</small>
-                        </div>
-                    </div>
-                    <!-- END OF INVESTMENT -->
-                </div>
-                <!-- END OF INVESTMENTS -->
+                </section>
             </section>
 
             <section id="transactions-section" class="content-section">
@@ -476,7 +241,7 @@
                         </div>
                         <div class="card-details">
                             <div class="card bg-danger">
-                                <img src="Dashboard/img/visa1.png">
+                                <img src="Dashboard/img/visa1.png" alt="Visa Logo">
                             </div>
                             <div class="details">
                                 <p> *2757</p>
@@ -499,7 +264,7 @@
                         </div>
                         <div class="card-details">
                             <div class="card bg-primary">
-                                <img src="Dashboard/img/visa1.png">
+                                <img src="Dashboard/img/visa1.png" alt="Visa Logo">
                             </div>
                             <div class="details">
                                 <p> *2757</p>
@@ -522,7 +287,7 @@
                         </div>
                         <div class="card-details">
                             <div class="card bg-dark">
-                                <img src="Dashboard/img/mastercard.png">
+                                <img src="Dashboard/img/mastercard.png" alt="Mastercard Logo">
                             </div>
                             <div class="details">
                                 <p> *2757</p>
@@ -545,53 +310,7 @@
                         </div>
                         <div class="card-details">
                             <div class="card bg-dark">
-                                <img src="Dashboard/img/mastercard.png">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$562</h4>
-                    </div>
-                    <!-- END OF TRANSACTION -->
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp danger">sports_esports</span>
-                            </div>
-                            <div class="details">
-                                <h4>Games</h4>
-                                <p>20.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-dark">
-                                <img src="Dashboard/img/mastercard.png">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$562</h4>
-                    </div>
-                    <!-- END OF TRANSACTION -->
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp danger">sports_esports</span>
-                            </div>
-                            <div class="details">
-                                <h4>Games</h4>
-                                <p>20.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-dark">
-                                <img src="Dashboard/img/mastercard.png">
+                                <img src="Dashboard/img/mastercard.png" alt="Mastercard Logo">
                             </div>
                             <div class="details">
                                 <p> *2757</p>
@@ -614,7 +333,7 @@
                         </div>
                         <div class="card-details">
                             <div class="card bg-primary">
-                                <img src="Dashboard/img/visa1.png">
+                                <img src="Dashboard/img/visa1.png" alt="Visa Logo">
                             </div>
                             <div class="details">
                                 <p> *2757</p>
@@ -629,8 +348,6 @@
             </section>
             <!-- END OF RIGHT -->
         </section>
-
-
     </main>
 </body>
 </html>

@@ -97,16 +97,19 @@ def fetch_assets():
 
     try:
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Assets")
+        cursor.execute("SELECT a.asset_name, c.category_name AS asset_category, a.purchase_price, a.quantity, "
+                       "(a.purchase_price * a.quantity) AS total_value FROM  Assets  JOIN  Asset_Category ac ON "
+                       "a.asset_id = ac.asset_id JOIN  Categories c ON ac.category_id = c.category_id; ")
         results = cursor.fetchall()
 
         assets = [
             {
                 "asset_id": asset[0],
                 "asset_name": asset[1],
-                "purchase_date": asset[2],
+                "asset_category": asset[2],
                 "purchase_price": float(asset[3]),
-                "quantity": float(asset[4])
+                "total_value": asset[4],
+                "quantity": float(asset[5])
             }
             for asset in results
         ]
