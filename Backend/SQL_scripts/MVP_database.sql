@@ -38,13 +38,13 @@ INSERT INTO Category (name, description) VALUES
 ('Valuables', 'Precious items such as jewelry or collectibles');
 
 -- Insert data into Asset table
-INSERT INTO Asset (symbol, name, category_name, total_purchase_price) VALUES
-('AAPL', 'Apple Inc.', 'Stock', 1500.00),
-('GOOG', 'Alphabet Inc.', 'Stock', 5000.00),
-('TLT', 'iShares 20+ Year Treasury Bond ETF', 'Bond', 2000.00),
-('CASH', 'Cash Fund', 'Cash', 100500.00),
-('Property 101', 'Beachfront Property', 'Real_Estate', 300000.00),
-('Gold Necklace', 'Gold and Diamond Necklace', 'Valuables', 10000.00);
+INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity) VALUES
+('AAPL', 'Apple Inc.', 'Stock', 1500.00, 10),
+('GOOG', 'Alphabet Inc.', 'Stock', 5000.00, 25),
+('TLT', 'iShares 20+ Year Treasury Bond ETF', 'Bond', 2000.00, 15),
+('CASH', 'Cash Fund', 'Cash', 100500.00, NULL),
+('Property 101', 'Beachfront Property', 'Real_Estate', 300000.00, 1),
+('Gold Necklace', 'Gold and Diamond Necklace', 'Valuables', 10000.00, NULL);
 
 -- Insert data into Transaction table
 INSERT INTO Transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES

@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 
 from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, \
-    get_stock_info  # Import your function here
+    get_stock_info, get_asset_name  # Import your function here
 from Backend.Database.DB_communication import (
     create_asset, read_assets, update_asset, delete_asset,
     create_category, read_categories, update_category, delete_category,
-    create_transaction, read_transactions, update_transaction, delete_transaction
+    create_transaction, read_transactions, update_transaction, delete_transaction,
+    buy_stock
 )
 
 
@@ -101,6 +102,26 @@ def get_net_value():
 @app.route("api/add_funds/<int:deposit_amount>")
 def add_funds(deposit_amount):
     CashAmount.USD += deposit_amount
+
+
+@app.route('/buy_stock', methods=['POST'])
+def buy_stock_endpoint():
+    data = request.get_json()
+
+    # Extract the parameters from the request
+    input_symbol = data.get('symbol')
+    long_name = get_asset_name(input_symbol)
+    purchase_price = get_current_price_api(input_symbol)
+    input_quantity = data.get('quantity')
+
+    if not input_symbol or not long_name or not purchase_price or not input_quantity:
+        return jsonify({'error': 'Missing required parameters'}), 400
+
+    # Call the buy_stock function from DB_communication.py
+    result, status_code = buy_stock(input_symbol, long_name, purchase_price, input_quantity)
+
+    # Return the result from buy_stock
+    return jsonify(result), status_code
 
 
 if __name__ == '__main__':
