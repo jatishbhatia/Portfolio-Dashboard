@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error, ProgrammingError
 
-database_create_script = "../../SQL_scripts/MVP_database.sql"
+database_create_script = "../SQL_scripts/MVP_database.sql"
 
 
 def establish_connection():
