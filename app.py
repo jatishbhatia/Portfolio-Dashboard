@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 
-from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, get_stock_info  # Import your function here
+from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, \
+    get_stock_info  # Import your function here
 from Backend.Database.DB_communication import (
     create_asset, fetch_assets, update_asset, delete_asset,
     create_category, fetch_categories, update_category, delete_category,
@@ -9,11 +10,17 @@ from Backend.Database.DB_communication import (
 )
 
 
+class CashAmount:
+    USD = 0
+
+
 app = Flask(
     __name__,
     template_folder='Frontend/Dashboard',  # Set template folder to Dashboard
     static_folder='Frontend/Dashboard'  # Set static folder to Dashboard
 )
+app.config.from_object(CashAmount)
+
 
 
 def parse_request(data):
@@ -26,10 +33,12 @@ def parse_request(data):
     interval = data.get('interval', '1d')
     return name, start, end, interval
 
+
 @app.route('/')
 def index():
     assets = fetch_assets()
     return render_template('index.html', assets=assets)
+
 
 @app.route('/run_python_code', methods=['POST'])
 def run_python_code():
@@ -55,16 +64,18 @@ def get_market_data_api(stock, start_date, end_date, interval):
     df = get_market_data(stock, start_date_dt, end_date_dt, interval)
     return df.to_json(orient='records')
 
+
 @app.route('/assets', methods=['GET'])
 def get_assets():
     assets = fetch_assets()
     print(assets)
-    return render_template('index.html', assets=assets),200
+    return render_template('index.html', assets=assets), 200
     # return jsonify(assets),200
     # assets = fetch_assets()
     # print(assets)
     # return render_template('index.html', assets=assets)
     # return jsonify(assets), 200
+
 
 @app.route("/api/get_current_price/<string:stock>")
 def get_current_price_api(stock):
@@ -74,6 +85,22 @@ def get_current_price_api(stock):
 @app.route("/api/get_stock_info/<string:stock>")
 def get_stock_info_api(stock):
     return get_stock_info(stock)
+
+
+@app.route("/api/get_net_value")
+def get_net_value():
+    assets = fetch_assets()
+    total_value = 0
+    for asset in assets:
+        stock_value = get_current_price(asset["symbol"])
+        stock_quantity = asset["quantity"]
+        total_value += stock_value * stock_quantity
+    return total_value
+
+
+@app.route("api/add_funds/<int:deposit_amount>")
+def add_funds(deposit_amount):
+    CashAmount.USD += deposit_amount
 
 
 if __name__ == '__main__':
