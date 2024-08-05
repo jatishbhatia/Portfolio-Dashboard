@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import mysql.connector
 from mysql.connector import Error, ProgrammingError
 
@@ -110,7 +112,7 @@ def create_asset(symbol, name, category_name, total_purchase_price, quantity):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity) VALUES (%s, %s, %s, %s, %s)",
+            "INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
             (symbol, name, category_name, total_purchase_price, quantity)
         )
         connection.commit()
@@ -139,7 +141,7 @@ def update_asset(id, symbol, name, category_name, total_purchase_price, quantity
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "UPDATE Asset SET symbol = %s, name = %s, category_name = %s, total_purchase_price = %s, quantity = %s WHERE id = %s",
+            "UPDATE Asset SET symbol = %s, name = %s, category_name = %s, total_purchase_price = %s, quantity = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s",
             (symbol, name, category_name, total_purchase_price, quantity, id)
         )
         connection.commit()
@@ -257,5 +259,44 @@ def execute_sql_script(path:str):
     except Error as e:
         print(f"Database creation failed: {e}")
 
+
+def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
+    connection = connect_to_db()
+    cursor = connection.cursor()
+    try:
+
+        # Check if the asset already exists
+        cursor.execute(
+            "SELECT id, name, total_purchase_price, quantity FROM asset WHERE symbol = %s AND category_name = 'Stock'",
+            (input_symbol,)
+        )
+        result = cursor.fetchone()
+
+        if result:
+            # Asset exists, update it
+            asset_id, long_name, total_purchase_price, existing_quantity = result
+            new_quantity = existing_quantity + input_quantity
+            new_total_purchase_price = total_purchase_price + (purchase_price * input_quantity)
+            update_result = update_asset(asset_id, input_symbol, long_name, "Stock",
+                                         new_total_purchase_price, new_quantity)
+            if 'error' in update_result:
+                return update_result
+        else:
+            # Asset does not exist, create it
+            asset_id = create_asset(input_symbol, long_name, 'Stock', purchase_price * input_quantity, input_quantity)
+
+        # Insert the transaction record
+        current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        transaction_result = create_transaction(asset_id, 'Buy', input_quantity, purchase_price, current_timestamp)
+        if 'error' in transaction_result:
+            return transaction_result
+
+        return {'message': 'Stock purchased successfully'}, 201
+    except mysql.connector.Error as err:
+        connection.rollback()
+        return {'error': str(err)}, 400
+    finally:
+        cursor.close()
+        close_connection(connection)
 
 establish_connection()
