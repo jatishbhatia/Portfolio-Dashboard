@@ -12,7 +12,8 @@ CREATE TABLE Asset (
     symbol VARCHAR(255) NOT NULL UNIQUE,
     name VARCHAR(255),
     category_name VARCHAR(255),
-    total_purchase_price DECIMAL(15, 2) DEFAULT 0.00,
+    total_purchase_price DECIMAL(10, 2) DEFAULT 0.00,
+    quantity DECIMAL(10, 2) DEFAULT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (category_name) REFERENCES Category(name)
@@ -22,8 +23,8 @@ CREATE TABLE Transaction (
     id INT AUTO_INCREMENT PRIMARY KEY,
     asset_id INT,
     transaction_type ENUM('buy', 'sell', 'cash_in', 'cash_out'),
-    quantity DECIMAL(15, 2) DEFAULT NULL,
-    price DECIMAL(15, 2) DEFAULT NULL,
+    quantity DECIMAL(10, 2) DEFAULT NULL,
+    price DECIMAL(10, 2) DEFAULT NULL,
     transaction_date DATETIME,
     FOREIGN KEY (asset_id) REFERENCES Asset(id)
 );

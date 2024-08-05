@@ -3,9 +3,9 @@ from datetime import datetime
 
 from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, get_stock_info  # Import your function here
 from Backend.Database.DB_communication import (
-    create_asset, fetch_assets, update_asset, delete_asset,
-    create_category, fetch_categories, update_category, delete_category,
-    create_asset_category, fetch_asset_categories, delete_asset_category
+    create_asset, read_assets, update_asset, delete_asset,
+    create_category, read_categories, update_category, delete_category,
+    create_transaction, read_transactions, update_transaction, delete_transaction
 )
 
 
@@ -28,7 +28,7 @@ def parse_request(data):
 
 @app.route('/')
 def index():
-    assets = fetch_assets()
+    assets = read_assets()
     return render_template('index.html', assets=assets)
 
 @app.route('/run_python_code', methods=['POST'])
@@ -57,7 +57,7 @@ def get_market_data_api(stock, start_date, end_date, interval):
 
 @app.route('/assets', methods=['GET'])
 def get_assets():
-    assets = fetch_assets()
+    assets = read_assets()
     print(assets)
     return render_template('index.html', assets=assets),200
     # return jsonify(assets),200
@@ -78,3 +78,81 @@ def get_stock_info_api(stock):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+'''
+@app.route('/categories', methods=['POST'])
+def add_category():
+    data = request.json
+    response, status_code = create_category(data['name'], data['description'])
+    return jsonify(response), status_code
+
+@app.route('/categories', methods=['GET'])
+def get_categories():
+    response, status_code = read_categories()
+    return jsonify(response), status_code
+
+@app.route('/categories/<string:name>', methods=['PUT'])
+def edit_category(name):
+    data = request.json
+    response, status_code = update_category(name, data['description'])
+    return jsonify(response), status_code
+
+@app.route('/categories/<string:name>', methods=['DELETE'])
+def remove_category(name):
+    response, status_code = delete_category(name)
+    return jsonify(response), status_code
+
+# CRUD operations for Asset
+@app.route('/assets', methods=['POST'])
+def add_asset():
+    data = request.json
+    response, status_code = create_asset(
+        data['symbol'], data['name'], data['category_name'], data['total_purchase_price']
+    )
+    return jsonify(response), status_code
+
+@app.route('/assets', methods=['GET'])
+def get_assets():
+    response, status_code = read_assets()
+    return jsonify(response), status_code
+
+@app.route('/assets/<int:id>', methods=['PUT'])
+def edit_asset(id):
+    data = request.json
+    response, status_code = update_asset(
+        id, data['symbol'], data['name'], data['category_name'], data['total_purchase_price']
+    )
+    return jsonify(response), status_code
+
+@app.route('/assets/<int:id>', methods=['DELETE'])
+def remove_asset(id):
+    response, status_code = delete_asset(id)
+    return jsonify(response), status_code
+
+# CRUD operations for Transaction
+@app.route('/transactions', methods=['POST'])
+def add_transaction():
+    data = request.json
+    response, status_code = create_transaction(
+        data['asset_id'], data['transaction_type'], data['quantity'], data['price'], data['transaction_date']
+    )
+    return jsonify(response), status_code
+
+@app.route('/transactions', methods=['GET'])
+def get_transactions():
+    response, status_code = read_transactions()
+    return jsonify(response), status_code
+
+@app.route('/transactions/<int:id>', methods=['PUT'])
+def edit_transaction(id):
+    data = request.json
+    response, status_code = update_transaction(
+        id, data['asset_id'], data['transaction_type'], data['quantity'], data['price'], data['transaction_date']
+    )
+    return jsonify(response), status_code
+
+@app.route('/transactions/<int:id>', methods=['DELETE'])
+def remove_transaction(id):
+    response, status_code = delete_transaction(id)
+    return jsonify(response), status_code
+'''
