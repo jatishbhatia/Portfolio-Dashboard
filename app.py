@@ -76,5 +76,16 @@ def get_stock_info_api(stock):
     return get_stock_info(stock)
 
 
+@app.route("/api/get_net_value")
+def get_net_value():
+    assets = fetch_assets()
+    total_value = 0
+    for asset in assets:
+        stock_value = get_current_price(asset["asset_name"])
+        stock_quantity = asset["quantity"]
+        total_value += stock_value*stock_quantity
+    return total_value
+
+
 if __name__ == '__main__':
     app.run(debug=True)
