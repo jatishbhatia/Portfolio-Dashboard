@@ -105,6 +105,10 @@ def add_funds(deposit_amount):
  
 
 
+@app.route("/api/get_funds")
+def get_funds():
+    return CashAmount.USD
+
 
 @app.route("/api/get_unrealized_profit")
 def get_unrealized_profit():
@@ -149,6 +153,10 @@ def sell_stock_endpoint():
 
     result, status_code = sell_stock(input_symbol, selling_price, input_quantity)
     return jsonify(result), status_code
+
+@app.route('/api/get_transactions')
+def get_transactions():
+    return read_transactions()
 
 
 if __name__ == '__main__':
