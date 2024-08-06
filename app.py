@@ -159,5 +159,19 @@ def get_transactions():
     return read_transactions()
 
 
+@app.route('/api/get_assets_market_price')
+def get_assets_market_price():
+    assets = read_assets()
+    ticker_names = set()
+    for asset in assets:
+        ticker_names.add(asset["symbol"])
+
+    ticker_price_dict ={}
+    for ticker in ticker_names:
+        price = get_current_price(ticker)
+        ticker_price_dict[ticker] = price
+    return ticker_price_dict
+
+
 if __name__ == '__main__':
     app.run(debug=True)
