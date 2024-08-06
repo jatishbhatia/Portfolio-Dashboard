@@ -9,7 +9,7 @@ CREATE TABLE Category (
 
 CREATE TABLE Asset (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    symbol VARCHAR(255) NOT NULL UNIQUE,
+    symbol VARCHAR(255) NOT NULL,
     name VARCHAR(255),
     category_name VARCHAR(255),
     total_purchase_price DECIMAL(10, 2) DEFAULT 0.00,
