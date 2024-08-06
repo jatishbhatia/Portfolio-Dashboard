@@ -3,8 +3,8 @@ from datetime import datetime
 import mysql.connector
 from mysql.connector import Error, ProgrammingError
 
-database_create_script = "../SQL_scripts/MVP_database.sql"
-# database_create_script = "Backend/SQL_scripts/MVP_database.sql"
+# database_create_script = "../SQL_scripts/MVP_database.sql"
+database_create_script = "Backend/SQL_scripts/MVP_database.sql"
 
 
 def establish_connection():
@@ -113,14 +113,14 @@ def create_asset(symbol, name, category_name, total_purchase_price, quantity):
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
+            "INSERT INTO asset (symbol, name, category_name, total_purchase_price, quantity, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
             (symbol, name, category_name, total_purchase_price, quantity)
         )
         connection.commit()
         asset_id = cursor.lastrowid
         return asset_id, {'message': 'Asset created'}, 201
     except mysql.connector.Error as err:
-        return {'error': str(err)}, 400
+        return 400, {'error': str(err)}, 400
     finally:
         cursor.close()
         close_connection(connection)
@@ -157,11 +157,12 @@ def update_asset(id, symbol, name, category_name, total_purchase_price, quantity
         cursor.close()
         close_connection(connection)
 
-def delete_asset(id):
+
+def delete_asset(asset_id):
     connection = connect_to_db()
     cursor = connection.cursor()
     try:
-        cursor.execute("DELETE FROM Asset WHERE id = %s", (id,))
+        cursor.execute("DELETE FROM asset WHERE id = %s", (asset_id,))
         connection.commit()
         if cursor.rowcount > 0:
             return {'message': 'Asset deleted'}, 200
@@ -306,9 +307,65 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
         cursor.close()
         close_connection(connection)
 
+
+def sell_stock(input_symbol, selling_price, input_quantity):
+    connection = connect_to_db()
+    cursor = connection.cursor()
+    try:
+
+        # Check if the asset exists and retrieve details
+        cursor.execute(
+            "SELECT id, name, total_purchase_price, quantity FROM asset WHERE symbol = %s AND category_name = 'Stock'",
+            (input_symbol,)
+        )
+        result = cursor.fetchone()
+
+        if result:
+            asset_id, name, total_purchase_price, existing_quantity = result
+
+            if existing_quantity >= input_quantity:
+                # Calculate new values
+                new_quantity = existing_quantity - input_quantity
+                # if new_quantity > 0:
+                    # Update Asset
+                avg_stock_price = total_purchase_price / existing_quantity
+                new_total_purchase_price = total_purchase_price - (input_quantity * avg_stock_price)
+                update_result = update_asset(asset_id, input_symbol, name, 'Stock',
+                                             new_total_purchase_price, new_quantity)
+                if 'error' in update_result:
+                    return update_result
+                # else:
+                #     # Delete Asset
+                #     delete_result = delete_asset(asset_id)
+                #     if 'error' in delete_result:
+                #         return delete_result
+
+                # Insert Transaction record
+                current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                transaction_result = create_transaction(asset_id, 'sell', input_quantity, selling_price, current_timestamp)
+                if 'error' in transaction_result:
+                    return transaction_result
+
+                return {'message': 'Stock sold successfully'}, 201
+            else:
+                return {'message': 'Insufficient quantity'}, 400
+        else:
+            return {'message': 'Asset not found'}, 404
+    except mysql.connector.Error as err:
+        connection.rollback()
+        return {'error': str(err)}, 400
+    finally:
+        cursor.close()
+        close_connection(connection)
+
 establish_connection()
 
-# print(buy_stock('AAPLA', 'yo', 6, 10))
+# print(buy_stock('TLT', 'yo', 6, 5))
+# print(read_assets())
+# print("\n--------------------------\nTRANSACTIONS\n")
+# print(read_transactions())
+# print(sell_stock('TLT', 6, 5))
+# print("\n--------------------------\nAFTER SELLING\n")
 # print(read_assets())
 # print("\n--------------------------\nTRANSACTIONS\n")
 # print(read_transactions())
