@@ -98,9 +98,9 @@ def get_net_value():
     return total_value
 
 
-@app.route("api/add_funds/<int:deposit_amount>")
-def add_funds(deposit_amount):
-    CashAmount.USD += deposit_amount
+# @app.route("api/add_funds/<int:deposit_amount>")
+# def add_funds(deposit_amount):
+#     CashAmount.USD += deposit_amount
 
 
 if __name__ == '__main__':

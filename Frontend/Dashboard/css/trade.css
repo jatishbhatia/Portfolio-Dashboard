@@ -1,0 +1,112 @@
+/* ======= ASIDE & SIDEBAR ======= */
+.tradeButton {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.tradeButton:hover {
+    background-color: #45a049;
+}
+.TradeContainer{
+    /* display: none; */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.TradeContainer body{
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-width: 50%;
+    flex-direction: column;
+}
+
+.TradeContainer {
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background: #d3d3d3;
+        border-radius: var(--card-border-radius);
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+}
+
+.TradeContainer h1,
+h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #333;
+}
+
+.form-container {
+        width: 100%;
+        margin-bottom: 2rem;
+}
+
+.form-group {
+        margin-bottom: 1.5rem;
+}
+
+label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #555;
+}
+
+input,
+select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+}
+
+button {
+        width: 100%;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+}
+
+button:hover {
+        background-color: #0056b3;
+}
+
+.result-container {
+        width: 100%;
+}
+
+table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+}
+
+th,
+td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+}
+
+thead {
+        background-color: #f4f4f4;
+}

@@ -27,7 +27,13 @@
     <link rel="stylesheet" href="Dashboard/css/apiCssPostRecord.css">
     <link rel="stylesheet" href="Dashboard/css/screenView.css">
     <link rel="stylesheet" href="Dashboard/css/cardSide.css">
+    <link rel="stylesheet" href="Dashboard/css/trade.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Including SweetAlert CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
 </head>
 <body>
     <nav>
@@ -119,7 +125,6 @@
                     <h1>Overview</h1>
                     <input type="date">
                 </div>
-
             </section>
 
             <section id="assets-section" class="content-section">
@@ -132,19 +137,19 @@
                                     <th>Asset Name</th>
                                     <th>Category</th>
                                     <th>Purchase Price</th>
-                                    <th>Total Value</th>
                                     <th>Quantity</th>
+                                    <th>Trade</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% if assets %}
                                 {% for asset in assets %}
                                 <tr>
-                                    <td>{{ asset.asset_name }}</td>
-                                    <td>{{ asset.asset_category }}</td>
-                                    <td>{{ asset.purchase_price }}</td>
-                                    <td>{{ asset.total_value }}</td>
+                                    <td id="assetName">{{ asset.name }}</td>
+                                    <td>{{ asset.category_name }}</td>
+                                    <td>{{ asset.total_purchase_price }}</td>
                                     <td>{{ asset.quantity }}</td>
+                                    <td><button class="tradeButton" onclick="'{{ asset.name }}'"> Trade</button></td>
                                 </tr>
                                 {% endfor %}
                                 {% else %}
@@ -157,7 +162,55 @@
                     </div>
                 </div>
                 <!-- END OF ASSETS SECTION -->
+
+                <div class="TradeContainer" id="tradeContainer" style="display: none;">
+                    <h1>Stock Trading Platform</h1>
+                    <div class="form-container">
+                        <form id="tradeForm">
+                            <div class="form-group">
+                                <label for="transactionType">Transaction Type:</label>
+                                <select id="transactionType" name="transactionType" required>
+                                    <option value="buy">Buy</option>
+                                    <option value="sell">Sell</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="stockSymbol">Stock Symbol:</label>
+                                <input type="text" id="stockSymbol" name="stockSymbol" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" id="quantity" name="quantity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price per Share:</label>
+                                <input type="number" id="price" name="price" step="0.01" required>
+                            </div>
+                            <button type="submit">Submit</button>
+                            <button type="button" onclick="hideTradePopup()">Cancel</button>
+                        </form>
+                    </div>
+                    <div class="result-container">
+                        <h2>Trade History</h2>
+                        <table id="tradeHistory">
+                            <thead>
+                                <tr>
+                                    <th>Side</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                    <th>Timestamp</th>
+                                    <th>Position</th>
+                                    <th>Balance/Realized PnL</th>
+                                    <th>Unrealized PnL</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
             </section>
+            <script src="Dashboard/js/trade.js"></script>
+
 
             <section id="api-post-data-section" class="content-section">
                 <div class="apiPostData">
@@ -197,7 +250,6 @@
                                 <div class="chip">
                                     <img src="Dashboard/img/maincardchip.png">
                                 </div>
-
                             </div>
                             <div class="bottom">
                                 <div class="left">
@@ -216,9 +268,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </section>
             </section>
 
