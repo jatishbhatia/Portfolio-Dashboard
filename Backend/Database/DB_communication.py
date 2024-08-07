@@ -283,21 +283,22 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
             asset_id, long_name, total_purchase_price, existing_quantity = result
             new_quantity = existing_quantity + input_quantity
             new_total_purchase_price = total_purchase_price + (purchase_price * input_quantity)
-            update_result = update_asset(asset_id, input_symbol, long_name, "Stock",
+            update_result, status_code = update_asset(asset_id, input_symbol, long_name, "Stock",
                                          new_total_purchase_price, new_quantity)
             if 'error' in update_result:
-                return update_result
+                return update_result, status_code
         else:
             # Asset does not exist, create it
-            asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock', purchase_price * input_quantity, input_quantity)
+            total_purchase_price = purchase_price * input_quantity
+            asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock', total_purchase_price, input_quantity)
             if status_code != 201:
-                return create_result
+                return create_result, status_code
 
         # Insert the transaction record
         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        transaction_result = create_transaction(asset_id, 'buy', input_quantity, purchase_price, current_timestamp)
+        transaction_result, status_code = create_transaction(asset_id, 'buy', input_quantity, purchase_price, current_timestamp)
         if 'error' in transaction_result:
-            return transaction_result
+            return transaction_result, status_code
 
         return {'message': 'Stock purchased successfully'}, 201
     except mysql.connector.Error as err:
@@ -324,27 +325,20 @@ def sell_stock(input_symbol, selling_price, input_quantity):
             asset_id, name, total_purchase_price, existing_quantity = result
 
             if existing_quantity >= input_quantity:
-                # Calculate new values
+                # Calculate new values and update asset
                 new_quantity = existing_quantity - input_quantity
-                # if new_quantity > 0:
-                    # Update Asset
                 # avg_stock_price = total_purchase_price / existing_quantity
                 new_total_purchase_price = total_purchase_price - (input_quantity * selling_price)
-                update_result = update_asset(asset_id, input_symbol, name, 'Stock',
+                update_result, status_code = update_asset(asset_id, input_symbol, name, 'Stock',
                                              new_total_purchase_price, new_quantity)
                 if 'error' in update_result:
-                    return update_result
-                # else:
-                #     # Delete Asset
-                #     delete_result = delete_asset(asset_id)
-                #     if 'error' in delete_result:
-                #         return delete_result
+                    return update_result, status_code
 
                 # Insert Transaction record
                 current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                transaction_result = create_transaction(asset_id, 'sell', input_quantity, selling_price, current_timestamp)
+                transaction_result, status_code = create_transaction(asset_id, 'sell', input_quantity, selling_price, current_timestamp)
                 if 'error' in transaction_result:
-                    return transaction_result
+                    return transaction_result, status_code
 
                 return {'message': 'Stock sold successfully'}, 201
             else:
