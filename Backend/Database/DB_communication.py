@@ -328,8 +328,8 @@ def sell_stock(input_symbol, selling_price, input_quantity):
                 new_quantity = existing_quantity - input_quantity
                 # if new_quantity > 0:
                     # Update Asset
-                avg_stock_price = total_purchase_price / existing_quantity
-                new_total_purchase_price = total_purchase_price - (input_quantity * avg_stock_price)
+                # avg_stock_price = total_purchase_price / existing_quantity
+                new_total_purchase_price = total_purchase_price - (input_quantity * selling_price)
                 update_result = update_asset(asset_id, input_symbol, name, 'Stock',
                                              new_total_purchase_price, new_quantity)
                 if 'error' in update_result:

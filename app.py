@@ -115,7 +115,8 @@ def get_unrealized_profit():
     assets = read_assets()
     profit = 0
     for asset in assets:
-        profit += get_asset_unrealized_profit(asset)
+        if asset["category_name"] == 'Stock':
+            profit += get_asset_unrealized_profit(asset)
     return profit
 
 
