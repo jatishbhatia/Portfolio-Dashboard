@@ -120,12 +120,12 @@ def get_unrealized_profit():
     for asset in assets:
         if asset["category_name"] == 'Stock':
             profit += get_asset_unrealized_profit(asset)
-    return profit
+    return jsonify(round(profit,2)), 200
 
 
 def get_asset_unrealized_profit(asset):
-    purchase_price_total = asset["total_purchase_price"]
-    total_current_asset_value = asset["quantity"] * get_current_price(asset["symbol"])
+    purchase_price_total = float(asset["total_purchase_price"])
+    total_current_asset_value = float(asset["quantity"]) * get_current_price(asset["symbol"])
     return total_current_asset_value - purchase_price_total
 
 
