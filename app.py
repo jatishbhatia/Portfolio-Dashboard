@@ -108,11 +108,9 @@ def get_net_value():
     return total_value
 
 
-
 @app.route("/api/add_funds/<int:deposit_amount>")
 def add_funds(deposit_amount):
     CashAmount.USD += deposit_amount
-
 
 
 @app.route("/api/get_funds")
@@ -177,7 +175,7 @@ def get_assets_market_price():
     for asset in assets:
         ticker_names.add(asset["symbol"])
 
-    ticker_price_dict ={}
+    ticker_price_dict = {}
     for ticker in ticker_names:
         price = get_current_price(ticker)
         ticker_price_dict[ticker] = price
