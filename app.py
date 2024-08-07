@@ -135,7 +135,7 @@ def buy_stock_endpoint():
 
     input_symbol = data.get('symbol')
     long_name = get_asset_name(input_symbol)
-    purchase_price = get_current_price_api(input_symbol)
+    purchase_price = float(f"{get_current_price(input_symbol):.2f}")
     input_quantity = data.get('quantity')
 
     if not input_symbol or not long_name or not purchase_price or not input_quantity:
@@ -149,7 +149,7 @@ def sell_stock_endpoint():
     data = request.get_json()
 
     input_symbol = data.get('symbol')
-    selling_price = get_current_price_api(input_symbol)
+    selling_price = float(f"{get_current_price(input_symbol):.2f}")
     input_quantity = data.get('quantity')
 
     if not input_symbol or not selling_price or not input_quantity:

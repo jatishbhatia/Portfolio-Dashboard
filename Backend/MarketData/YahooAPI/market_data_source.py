@@ -31,4 +31,4 @@ def get_stock_info(stock_name):
 
 # ToDO:review this code
 def get_asset_name(ticker_name: str) -> str:
-    return get_stock_info(ticker_name)["longName"]
+    return get_stock_info(ticker_name).get('longName', 'N/A')
