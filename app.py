@@ -97,12 +97,10 @@ def get_net_value():
         total_value += stock_value * stock_quantity
     return total_value
 
-
  
 @app.route("/api/add_funds/<int:deposit_amount>")
 def add_funds(deposit_amount):
     CashAmount.USD += deposit_amount
- 
 
 
 @app.route("/api/get_funds")
@@ -110,7 +108,7 @@ def get_funds():
     return CashAmount.USD
 
 
-@app.route("/api/get_unrealized_profit")
+@app.route("/api/get_unrealized_profit", methods=['GET'])
 def get_unrealized_profit():
     assets = read_assets()
     profit = 0
@@ -170,7 +168,7 @@ def get_assets_market_price():
     for ticker in ticker_names:
         price = get_current_price(ticker)
         ticker_price_dict[ticker] = price
-    return ticker_price_dict
+    return jsonify(ticker_price_dict)
 
 
 if __name__ == '__main__':
