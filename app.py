@@ -77,10 +77,20 @@ def get_assets():
     # return jsonify(assets), 200
 
 
+# @app.route("/api/get_current_price/<string:stock>")
+# def get_current_price_api(stock):
+#     return get_current_price(stock)
+#     # price = get_current_price(stock)
+#     # return jsonify({'price': price})
 @app.route("/api/get_current_price/<string:stock>")
 def get_current_price_api(stock):
-    return get_current_price(stock)
-
+    try:
+        price = get_current_price(stock)
+        return jsonify({'price': price})
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        return jsonify({'error': 'An unexpected error occurred.'}), 500
 
 @app.route("/api/get_stock_info/<string:stock>")
 def get_stock_info_api(stock):
@@ -98,11 +108,11 @@ def get_net_value():
     return total_value
 
 
- 
+
 @app.route("/api/add_funds/<int:deposit_amount>")
 def add_funds(deposit_amount):
     CashAmount.USD += deposit_amount
- 
+
 
 
 @app.route("/api/get_funds")
@@ -125,7 +135,7 @@ def get_asset_unrealized_profit(asset):
     total_current_asset_value = asset["quantity"] * get_current_price(asset["symbol"])
     return total_current_asset_value - purchase_price_total
 
- 
+
 @app.route('/buy_stock', methods=['POST'])
 def buy_stock_endpoint():
     data = request.get_json()
