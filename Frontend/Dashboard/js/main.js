@@ -43,6 +43,20 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+
+document.addEventListener("DOMContentLoaded", function() {
+        function getProfit() {
+            fetch('/api/get_unrealized_profit')
+                .then(profit => profit.json())
+                .then(profit => {
+                    document.getElementById('profit').textContent = profit;
+                })
+                .catch(err => {
+                    console.error('Error displaying profit:', err);
+                });
+        }
+        getProfit();
+    });
 // sho wor hide the sidebar
 const menuBtn = document.querySelector('#menu-btn')
 const closeBtn = document.querySelector('#close-btn')

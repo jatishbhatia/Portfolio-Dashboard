@@ -39,7 +39,8 @@ def parse_request(data):
 @app.route('/')
 def index():
     assets = read_assets()
-    return render_template('index.html', assets=assets)
+    transactions = read_transactions()
+    return render_template('index.html', assets=assets, transactions=transactions)
 
 
 @app.route('/run_python_code', methods=['POST'])
@@ -67,23 +68,6 @@ def get_market_data_api(stock, start_date, end_date, interval):
     return df.to_json(orient='records')
 
 
-@app.route('/assets', methods=['GET'])
-def get_assets():
-    assets = read_assets()
-    print(assets)
-    return render_template('index.html', assets=assets), 200
-    # return jsonify(assets),200
-    # assets = fetch_assets()
-    # print(assets)
-    # return render_template('index.html', assets=assets)
-    # return jsonify(assets), 200
-
-
-# @app.route("/api/get_current_price/<string:stock>")
-# def get_current_price_api(stock):
-#     return get_current_price(stock)
-#     # price = get_current_price(stock)
-#     # return jsonify({'price': price})
 @app.route("/api/get_current_price/<string:stock>")
 def get_current_price_api(stock):
     try:
@@ -121,19 +105,19 @@ def get_funds():
     return CashAmount.USD
 
 
-@app.route("/api/get_unrealized_profit")
+@app.route("/api/get_unrealized_profit", methods=['GET'])
 def get_unrealized_profit():
     assets = read_assets()
     profit = 0
     for asset in assets:
         if asset["category_name"] == 'Stock':
             profit += get_asset_unrealized_profit(asset)
-    return profit
+    return jsonify(round(profit,2)), 200
 
 
 def get_asset_unrealized_profit(asset):
-    purchase_price_total = asset["total_purchase_price"]
-    total_current_asset_value = asset["quantity"] * get_current_price(asset["symbol"])
+    purchase_price_total = float(asset["total_purchase_price"])
+    total_current_asset_value = float(asset["quantity"]) * get_current_price(asset["symbol"])
     return total_current_asset_value - purchase_price_total
 
 
@@ -143,6 +127,7 @@ def buy_stock_endpoint():
     print("*******************************************")
     print(data)
     input_symbol = data.get('symbol')
+
 
     try:
         long_name = get_asset_name(input_symbol)
@@ -167,18 +152,19 @@ def sell_stock_endpoint():
     data = request.get_json()
 
     input_symbol = data.get('symbol')
+
     try:
         selling_price = Decimal(str(get_current_price(input_symbol)))
         input_quantity = Decimal(data.get('quantity'))
     except (TypeError, ValueError, InvalidOperation) as e:
         return jsonify({'error': 'Invalid price or quantity provided'}), 400
 
+
     if not input_symbol or not selling_price or not input_quantity:
         return jsonify({'error': 'Missing required parameters'}), 400
 
     result, status_code = sell_stock(input_symbol, selling_price, input_quantity)
     return jsonify(result), status_code
-
 
 @app.route('/api/get_transactions')
 def get_transactions():
@@ -196,7 +182,7 @@ def get_assets_market_price():
     for ticker in ticker_names:
         price = get_current_price(ticker)
         ticker_price_dict[ticker] = price
-    return ticker_price_dict
+    return jsonify(ticker_price_dict)
 
 
 if __name__ == '__main__':

@@ -69,3 +69,9 @@ main .recent-transactions {
   overflow-y: auto;
   margin-top: 8rem;
 }
+
+main .transactionTableContainer {
+    max-height: 600px;
+    overflow-y: auto;
+    margin-top: 1rem;
+}

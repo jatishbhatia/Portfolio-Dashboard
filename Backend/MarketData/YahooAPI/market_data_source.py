@@ -36,3 +36,5 @@ def get_asset_name(ticker_name: str) -> str:
         return stock_info["longName"]
     else:
         raise KeyError("longName not found in stock info")
+
+        
