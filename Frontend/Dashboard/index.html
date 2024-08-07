@@ -149,7 +149,8 @@
                                     <td>{{ asset.category_name }}</td>
                                     <td>{{ asset.total_purchase_price }}</td>
                                     <td>{{ asset.quantity }}</td>
-                                    <td><button class="tradeButton" onclick="'{{ asset.name }}'"> Trade</button></td>
+                                    <td><button class="tradeButton" data-asset-name="{{ asset.name }}"
+                                                data-stock-symbol="{{ asset.symbol }}">Trade</button></td>
                                 </tr>
                                 {% endfor %}
                                 {% else %}
@@ -210,7 +211,6 @@
                 </div>
             </section>
             <script src="Dashboard/js/trade.js"></script>
-
 
             <section id="api-post-data-section" class="content-section">
                 <div class="apiPostData">
