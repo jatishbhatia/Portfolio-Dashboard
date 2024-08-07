@@ -281,123 +281,41 @@
                 <div class="recent-transactions">
                     <div class="header">
                         <h2>Recent Transactions</h2>
-                        <a href="#">More <span class="material-icons-sharp">chevron_right</span></a>
                     </div>
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp purple">headset_mic</span>
-                            </div>
-                            <div class="details">
-                                <h4>Music</h4>
-                                <p>20.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-danger">
-                                <img src="Dashboard/img/visa1.png" alt="Visa Logo">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$20</h4>
+                </div>
+                <div class="assetsSection">
+                    <h1 class="assetsHeader">Transactions</h1>
+                    <div class="transactionTableContainer">
+                        <table class="assetsTable">
+                            <thead>
+                                <tr class="trAssets">
+                                <tr class="trAssets">
+                                    <th>Asset Name</th>
+                                    <th>Transaction Type</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if transactions %}
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.name }}</td>
+                                    <td>{{ transaction.transaction_type }}</td>
+                                    <td>{{ transaction.quantity }}</td>
+                                    <td>{{ transaction.price }}</td>
+                                    <td>{{ transaction.transaction_date }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="5">No transactions found</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
                     </div>
-                    <!-- END OF TRANSACTION -->
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp purple">shopping_bag</span>
-                            </div>
-                            <div class="details">
-                                <h4>Shopping</h4>
-                                <p>20.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-primary">
-                                <img src="Dashboard/img/visa1.png" alt="Visa Logo">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$20</h4>
-                    </div>
-                    <!-- END OF TRANSACTION -->
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp success">restaurant</span>
-                            </div>
-                            <div class="details">
-                                <h4>Restaurant</h4>
-                                <p>20.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-dark">
-                                <img src="Dashboard/img/mastercard.png" alt="Mastercard Logo">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$562</h4>
-                    </div>
-                    <!-- END OF TRANSACTION -->
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp danger">sports_esports</span>
-                            </div>
-                            <div class="details">
-                                <h4>Games</h4>
-                                <p>20.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-dark">
-                                <img src="Dashboard/img/mastercard.png" alt="Mastercard Logo">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$562</h4>
-                    </div>
-                    <!-- END OF TRANSACTION -->
-
-                    <div class="transaction">
-                        <div class="service">
-                            <div class="icon bg-purple-light">
-                                <span class="material-icons-sharp danger">medication</span>
-                            </div>
-                            <div class="details">
-                                <h4>Pharmacy</h4>
-                                <p>15.11.2021</p>
-                            </div>
-                        </div>
-                        <div class="card-details">
-                            <div class="card bg-primary">
-                                <img src="Dashboard/img/visa1.png" alt="Visa Logo">
-                            </div>
-                            <div class="details">
-                                <p> *2757</p>
-                                <small class="text-muted">Credit Card</small>
-                            </div>
-                        </div>
-                        <h4>-$562</h4>
-                    </div>
-                    <!-- END OF TRANSACTION -->
                 </div>
                 <!-------------------- END OF TRANSACTION ----------------------->
             </section>
