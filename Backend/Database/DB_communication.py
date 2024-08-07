@@ -198,7 +198,7 @@ def read_transactions():
     connection = connect_to_db()
     cursor = connection.cursor(dictionary=True)
     try:
-        cursor.execute("SELECT * FROM Transaction ORDER BY transaction_date DESC")
+        cursor.execute("SELECT * FROM Transaction t LEFT JOIN asset a ON t.asset_id = a.id ORDER BY transaction_date DESC")
         transactions = cursor.fetchall()
         return transactions
     except mysql.connector.Error as err:

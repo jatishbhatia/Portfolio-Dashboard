@@ -37,7 +37,8 @@ def parse_request(data):
 @app.route('/')
 def index():
     assets = read_assets()
-    return render_template('index.html', assets=assets)
+    transactions = read_transactions()
+    return render_template('index.html', assets=assets, transactions=transactions)
 
 
 @app.route('/run_python_code', methods=['POST'])
@@ -63,18 +64,6 @@ def get_market_data_api(stock, start_date, end_date, interval):
     end_date_dt = datetime.strptime(end_date, '%Y-%m-%d')
     df = get_market_data(stock, start_date_dt, end_date_dt, interval)
     return df.to_json(orient='records')
-
-
-@app.route('/assets', methods=['GET'])
-def get_assets():
-    assets = read_assets()
-    print(assets)
-    return render_template('index.html', assets=assets), 200
-    # return jsonify(assets),200
-    # assets = fetch_assets()
-    # print(assets)
-    # return render_template('index.html', assets=assets)
-    # return jsonify(assets), 200
 
 
 @app.route("/api/get_current_price/<string:stock>")
@@ -157,10 +146,6 @@ def sell_stock_endpoint():
 
     result, status_code = sell_stock(input_symbol, selling_price, input_quantity)
     return jsonify(result), status_code
-
-@app.route('/api/get_transactions')
-def get_transactions():
-    return read_transactions()
 
 
 @app.route('/api/get_assets_market_price')
