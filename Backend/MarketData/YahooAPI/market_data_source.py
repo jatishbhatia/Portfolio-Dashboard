@@ -1,5 +1,5 @@
 import yfinance as yf
-from datetime import datetime
+from datetime import datetime, time
 
 
 def get_market_data(name: str, start: datetime, end: datetime, interval: str):
@@ -24,11 +24,17 @@ def get_current_price(stock_name: str):
         raise ValueError(f"Stock symbol {stock_name} not found.")
     return data['Close'].iloc[-1]
 
+
 def get_stock_info(stock_name):
     ticker = yf.Ticker(stock_name)
     return ticker.info
 
 
-# ToDO:review this code
 def get_asset_name(ticker_name: str) -> str:
-    return get_stock_info(ticker_name).get('longName', 'N/A')
+    stock_info = get_stock_info(ticker_name)
+    if "longName" in stock_info:
+        return stock_info["longName"]
+    else:
+        raise KeyError("longName not found in stock info")
+
+        

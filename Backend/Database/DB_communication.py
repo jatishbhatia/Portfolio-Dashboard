@@ -48,6 +48,7 @@ def close_connection(connection):
         connection.close()
         print("Connection closed.")
 
+
 # CRUD operations for Category
 def create_category(name, description):
     connection = connect_to_db()
@@ -62,6 +63,7 @@ def create_category(name, description):
         cursor.close()
         close_connection(connection)
 
+
 def read_categories():
     connection = connect_to_db()
     cursor = connection.cursor(dictionary=True)
@@ -74,6 +76,7 @@ def read_categories():
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def update_category(name, description):
     connection = connect_to_db()
@@ -91,6 +94,7 @@ def update_category(name, description):
         cursor.close()
         close_connection(connection)
 
+
 def delete_category(name):
     connection = connect_to_db()
     cursor = connection.cursor()
@@ -107,13 +111,15 @@ def delete_category(name):
         cursor.close()
         close_connection(connection)
 
+
 # CRUD operations for Asset
 def create_asset(symbol, name, category_name, total_purchase_price, quantity):
     connection = connect_to_db()
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "INSERT INTO asset (symbol, name, category_name, total_purchase_price, quantity, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
+            "INSERT INTO asset (symbol, name, category_name, total_purchase_price, quantity, created_at, updated_at) "
+            "VALUES (%s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
             (symbol, name, category_name, total_purchase_price, quantity)
         )
         connection.commit()
@@ -124,6 +130,7 @@ def create_asset(symbol, name, category_name, total_purchase_price, quantity):
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def read_assets():
     connection = connect_to_db()
@@ -138,12 +145,32 @@ def read_assets():
         cursor.close()
         close_connection(connection)
 
+
+# getting the symbol and the category from the database
+# def get_asset_details(symbol):
+#     connection = connect_to_db()
+#     cursor = connection.cursor(dictionary=True)
+#     try:
+#         query = "SELECT name, category, purchase_price, quantity FROM Asset WHERE symbol = %s"
+#         cursor.execute(query, (symbol,))
+#         asset = cursor.fetchone()
+#         if asset is None:
+#             raise KeyError(f"Asset details not found for symbol {symbol}")
+#         return asset
+#     except mysql.connector.Error as err:
+#         return {'error': str(err)}, 400
+#     finally:
+#         cursor.close()
+#         close_connection(connection)
+
+
 def update_asset(id, symbol, name, category_name, total_purchase_price, quantity):
     connection = connect_to_db()
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "UPDATE Asset SET symbol = %s, name = %s, category_name = %s, total_purchase_price = %s, quantity = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+            "UPDATE Asset SET symbol = %s, name = %s, category_name = %s, total_purchase_price = %s, quantity = %s, "
+            "updated_at = CURRENT_TIMESTAMP WHERE id = %s",
             (symbol, name, category_name, total_purchase_price, quantity, id)
         )
         connection.commit()
@@ -174,6 +201,7 @@ def delete_asset(asset_id):
         cursor.close()
         close_connection(connection)
 
+
 # CRUD operations for Transaction
 def create_transaction(asset_id, transaction_type, quantity, price, transaction_date):
     connection = connect_to_db()
@@ -183,7 +211,8 @@ def create_transaction(asset_id, transaction_type, quantity, price, transaction_
         price = str(price)
         asset_id = str(asset_id)
         cursor.execute(
-            "INSERT INTO transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES (%s, %s, %s, %s, %s)",
+            "INSERT INTO transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES (%s, %s, "
+            "%s, %s, %s)",
             (asset_id, transaction_type, quantity, price, transaction_date)
         )
         connection.commit()
@@ -193,6 +222,7 @@ def create_transaction(asset_id, transaction_type, quantity, price, transaction_
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def read_transactions():
     connection = connect_to_db()
@@ -207,12 +237,14 @@ def read_transactions():
         cursor.close()
         close_connection(connection)
 
+
 def update_transaction(id, asset_id, transaction_type, quantity, price, transaction_date):
     connection = connect_to_db()
     cursor = connection.cursor()
     try:
         cursor.execute(
-            "UPDATE Transaction SET asset_id = %s, transaction_type = %s, quantity = %s, price = %s, transaction_date = %s WHERE id = %s",
+            "UPDATE Transaction SET asset_id = %s, transaction_type = %s, quantity = %s, price = %s, transaction_date "
+            "= %s WHERE id = %s",
             (asset_id, transaction_type, quantity, price, transaction_date, id)
         )
         connection.commit()
@@ -225,6 +257,7 @@ def update_transaction(id, asset_id, transaction_type, quantity, price, transact
     finally:
         cursor.close()
         close_connection(connection)
+
 
 def delete_transaction(id):
     connection = connect_to_db()
@@ -242,8 +275,8 @@ def delete_transaction(id):
         cursor.close()
         close_connection(connection)
 
-def execute_sql_script(path:str):
 
+def execute_sql_script(path: str):
     try:
         connection = mysql.connector.connect(
             host="localhost",
@@ -289,8 +322,9 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
                 return update_result, status_code
         else:
             # Asset does not exist, create it
-            total_purchase_price = purchase_price * input_quantity
-            asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock', total_purchase_price, input_quantity)
+            asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock',
+                                                                purchase_price * input_quantity, input_quantity)
+
             if status_code != 201:
                 return create_result, status_code
 
@@ -327,6 +361,10 @@ def sell_stock(input_symbol, selling_price, input_quantity):
             if existing_quantity >= input_quantity:
                 # Calculate new values and update asset
                 new_quantity = existing_quantity - input_quantity
+
+                # if new_quantity > 0:
+                # Update Asset
+
                 # avg_stock_price = total_purchase_price / existing_quantity
                 new_total_purchase_price = total_purchase_price - (input_quantity * selling_price)
                 update_result, status_code = update_asset(asset_id, input_symbol, name, 'Stock',
@@ -336,7 +374,10 @@ def sell_stock(input_symbol, selling_price, input_quantity):
 
                 # Insert Transaction record
                 current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                transaction_result, status_code = create_transaction(asset_id, 'sell', input_quantity, selling_price, current_timestamp)
+
+                transaction_result = create_transaction(asset_id, 'sell', input_quantity, selling_price,
+                                                        current_timestamp)
+
                 if 'error' in transaction_result:
                     return transaction_result, status_code
 
@@ -351,6 +392,7 @@ def sell_stock(input_symbol, selling_price, input_quantity):
     finally:
         cursor.close()
         close_connection(connection)
+
 
 establish_connection()
 

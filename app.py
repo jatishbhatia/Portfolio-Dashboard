@@ -1,3 +1,5 @@
+from decimal import Decimal, InvalidOperation
+
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 
@@ -76,6 +78,7 @@ def get_current_price_api(stock):
     except Exception as e:
         return jsonify({'error': 'An unexpected error occurred.'}), 500
 
+
 @app.route("/api/get_stock_info/<string:stock>")
 def get_stock_info_api(stock):
     return get_stock_info(stock)
@@ -121,11 +124,21 @@ def get_asset_unrealized_profit(asset):
 @app.route('/buy_stock', methods=['POST'])
 def buy_stock_endpoint():
     data = request.get_json()
-
+    print("*******************************************")
+    print(data)
     input_symbol = data.get('symbol')
-    long_name = get_asset_name(input_symbol)
-    purchase_price = float(f"{get_current_price(input_symbol):.2f}")
-    input_quantity = data.get('quantity')
+
+
+    try:
+        long_name = get_asset_name(input_symbol)
+    except KeyError:
+        return jsonify({'error': f'Long name not found for symbol {input_symbol}'}), 400
+
+    try:
+        purchase_price = Decimal(str(get_current_price(input_symbol)))
+        input_quantity = Decimal(data.get('quantity'))
+    except (TypeError, ValueError, InvalidOperation) as e:
+        return jsonify({'error': 'Invalid price or quantity provided'}), 400
 
     if not input_symbol or not long_name or not purchase_price or not input_quantity:
         return jsonify({'error': 'Missing required parameters'}), 400
@@ -133,19 +146,29 @@ def buy_stock_endpoint():
     result, status_code = buy_stock(input_symbol, long_name, purchase_price, input_quantity)
     return jsonify(result), status_code
 
+
 @app.route('/sell_stock', methods=['POST'])
 def sell_stock_endpoint():
     data = request.get_json()
 
     input_symbol = data.get('symbol')
-    selling_price = float(f"{get_current_price(input_symbol):.2f}")
-    input_quantity = data.get('quantity')
+
+    try:
+        selling_price = Decimal(str(get_current_price(input_symbol)))
+        input_quantity = Decimal(data.get('quantity'))
+    except (TypeError, ValueError, InvalidOperation) as e:
+        return jsonify({'error': 'Invalid price or quantity provided'}), 400
+
 
     if not input_symbol or not selling_price or not input_quantity:
         return jsonify({'error': 'Missing required parameters'}), 400
 
     result, status_code = sell_stock(input_symbol, selling_price, input_quantity)
     return jsonify(result), status_code
+
+@app.route('/api/get_transactions')
+def get_transactions():
+    return read_transactions()
 
 
 @app.route('/api/get_assets_market_price')
