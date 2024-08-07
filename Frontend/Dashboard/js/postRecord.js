@@ -1,32 +1,37 @@
 //// POST API
 function callPostRecord() {
-        fetch('/run_python_code', {
-                method: 'POST',
-                headers: {
-                        'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                        name: 'AAPL',
-                        start: '2022-01-01',
-                        end: '2022-12-31',
-                        interval: '1d'
-                })
-        })
-                .then(response => {
-                        if (!response.ok) {
-                                return response.text().then(text => { throw new Error(text) });
-                        }
-                        return response.json();
-                })
-                .then(data => {
-                        console.log(data.result);
-                        alert('Python code executed successfully!');
-                        displayData(data.result, 'AAPL', '2022-01-01', '2022-12-31', '1d');
-                })
-                .catch(error => {
-                        console.error('Error:', error);
-                });
+    fetch('/run_python_code', {
+            method: 'POST',
+            headers: {
+                    'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                    name: 'AAPL',
+                    start: '2022-01-01',
+                    end: '2022-12-31',
+                    interval: '1d'
+            })
+    })
+    .then(response => {
+            if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+            }
+            return response.json();
+    })
+    .then(data => {
+            console.log(data.result);
+            alert('Python code executed successfully!');
+            displayData(data.result, 'AAPL', '2022-01-01', '2022-12-31', '1d');
+            // Reload the page after a short delay to ensure the user sees the alert
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000); // 2 seconds delay for demonstration
+    })
+    .catch(error => {
+            console.error('Error:', error);
+    });
 }
+
 
 function displayData(data, stock, start_date, end_date, interval) {
     const resultDiv = document.getElementById('result');

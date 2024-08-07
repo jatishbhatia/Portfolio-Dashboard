@@ -120,7 +120,7 @@
                 <span class="material-icons-sharp">update</span>
                 <h4>Updates Stocks values Available</h4>
                 <p>General Updates</p>
-                <a onclick="callPostRecord()" href="#">Update Data</a>
+                <a onclick="callPostRecord(); return false;" href="#">Update Data</a>
             </div>
         </aside>
         <!-- END OF ASIDE -->
@@ -237,16 +237,16 @@
         </section>
 
         <section class="right">
-
             <section id="unrealized-profit">
-                <h2>Performance</h2>
-                <h1 style='text-align: center'><span id="profit"></span> USD</h1>
+                <h1>Performance</h1>
+                <h1 style="font-weight: normal;" >$<span id="profit"> </span></h1>
             </section>
 
             <section id="investments-section" class="content-section">
                 <!-- card on the side -->
                 <section class="cardSide">
-                    <h2> Wallet Balance</h2>
+                    <br>
+                    <h3 style="font-weight: normal;"> Wallet Balance</h3>
                     <div class="cards">
                         <div class="card">
                             <div class="top">
@@ -283,14 +283,10 @@
                 </section>
             </section>
 
+            <h1 class="assetsHeader">Transactions History</h1>
             <section id="transactions-section" class="content-section">
-                <div class="recent-transactions">
-                    <div class="header">
-                        <h2>Recent Transactions</h2>
-                    </div>
-                </div>
                 <div class="assetsSection">
-                    <h1 class="assetsHeader">Transactions</h1>
+                    <h2 class="assetsHeader">Recent Transactions</h2>
                     <div class="transactionTableContainer">
                         <table class="assetsTable">
                             <thead>
