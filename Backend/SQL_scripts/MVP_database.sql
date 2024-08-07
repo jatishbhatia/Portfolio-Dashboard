@@ -40,7 +40,7 @@ INSERT INTO Category (name, description) VALUES
 -- Insert data into Asset table
 INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity) VALUES
 ('AAPL', 'Apple Inc.', 'Stock', 1500.00, 10),
-('GOOG', 'Alphabet Inc.', 'Stock', 5000.00, 25),
+('GOOG', 'Alphabet Inc.', 'Stock', 2500.00, 25),
 ('TLT', 'iShares 20+ Year Treasury Bond ETF', 'Bond', 2000.00, 15),
 ('CASH', 'Cash Fund', 'Cash', 100500.00, NULL),
 ('Property 101', 'Beachfront Property', 'Real_Estate', 300000.00, 1),
