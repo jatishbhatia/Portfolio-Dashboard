@@ -49,7 +49,19 @@ document.addEventListener("DOMContentLoaded", function() {
             fetch('/api/get_unrealized_profit')
                 .then(profit => profit.json())
                 .then(profit => {
-                    document.getElementById('profit').textContent = profit;
+                    const profitElement = document.getElementById('profit');
+                    let arrow = '';
+                    let color = '';
+
+                    if (profit >= 0) {
+                        arrow = '▲';
+                        color = 'green';
+                    } else {
+                        arrow = '▼';
+                        color = 'red';
+                    }
+
+                    profitElement.innerHTML = `<span style="color: ${color};">${arrow} ${profit} USD</span>`;
                 })
                 .catch(err => {
                     console.error('Error displaying profit:', err);
