@@ -10,13 +10,6 @@ main section.cardSide .h2{
     display: left;
 }
 
-/* main section.cardSide .cards {
-  margin-top: 1rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10rem;
-}
-*/
 main section.cardSide .cards .card {
   background: linear-gradient(#ff796f, #bd261b);
   padding: var(--card-padding);
@@ -103,6 +96,3 @@ main section.cardSide .card .bottom .right {
   display: flex;
   gap: 2rem;
 }
-
-/* Adjusting the headers */
-
