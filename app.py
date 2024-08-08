@@ -40,7 +40,8 @@ def parse_request(data):
 def index():
     assets = read_assets()
     transactions = read_transactions()
-    return render_template('index.html', assets=assets, transactions=transactions)
+    asset_prices = get_assets_market_price()
+    return render_template('index.html', assets=assets, transactions=transactions, asset_prices=asset_prices)
 
 
 @app.route('/run_python_code', methods=['POST'])
@@ -171,18 +172,22 @@ def get_transactions():
     return read_transactions()
 
 
-@app.route('/api/get_assets_market_price')
 def get_assets_market_price():
     assets = read_assets()
     ticker_names = set()
     for asset in assets:
-        ticker_names.add(asset["symbol"])
+        if asset["category_name"] == 'Stock':
+            ticker_names.add(asset["symbol"])
 
-    ticker_price_dict = {}
+    ticker_price_list = []
     for ticker in ticker_names:
         price = get_current_price(ticker)
-        ticker_price_dict[ticker] = price
-    return jsonify(ticker_price_dict)
+        asset_name = get_asset_name(ticker)
+        ticker_price_list.append({
+            'asset_name': asset_name,
+            'price': price
+        })
+    return ticker_price_list
 
 
 if __name__ == '__main__':
