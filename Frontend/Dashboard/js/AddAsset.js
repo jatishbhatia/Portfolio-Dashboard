@@ -86,9 +86,7 @@ function AddAsset() {
 
 function submitFormAsset(stockSymbol, assetName, categoryName, quantity, price) {
     try {
-        console.log('*************************')
-        console.log(quantity)
-        console.log(price)
+        
         if (quantity <= 0 || price <= 0) {
             throw new Error('Invalid price or quantity provided');
         }

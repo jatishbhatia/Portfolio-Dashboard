@@ -12,12 +12,12 @@ def get_market_data(name: str, start: datetime, end: datetime, interval: str):
     return yf.download(name, start=start_date, end=end_date, interval=interval)[['Open', 'High', 'Low', 'Close']]
 
 
-def get_current_price(stock_name: str):
+def get_current_price(stock_name: str) -> float:
     ticker = yf.Ticker(stock_name)
     data = ticker.history(period='1d', interval='1m')
     if data.empty:
         raise ValueError(f"Stock symbol {stock_name} not found.")
-    return data['Close'].iloc[-1]
+    return round(float(data['Close'].iloc[-1]), 2)
 
 
 def get_stock_info(stock_name):
@@ -31,5 +31,3 @@ def get_asset_name(ticker_name: str) -> str:
         return stock_info["longName"]
     else:
         raise KeyError("longName not found in stock info")
-
-        
