@@ -44,8 +44,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 function getRandomColor() {
-    const colors = ['Red', 'Green', 'Blue', 'Orange', 'Purple', 'Pink'];
-    return colors[Math.floor(Math.random()*5)];
+    const colors = [
+        'Crimson', 'DarkOrange', 'DarkViolet', 'FireBrick', 'DeepPink',
+        'LimeGreen', 'RoyalBlue', 'MediumVioletRed', 'DarkMagenta', 'Tomato',
+        'GoldenRod', 'DarkCyan', 'SteelBlue', 'HotPink', 'SlateBlue',
+        'DodgerBlue', 'DarkRed', 'ForestGreen', 'MediumOrchid', 'OrangeRed'
+    ];
+    return colors[Math.floor(Math.random()*(colors.length-1))];
 }
 
 

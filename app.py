@@ -139,8 +139,6 @@ def get_asset_unrealized_profit(asset):
 @app.route('/buy_stock', methods=['POST'])
 def buy_stock_endpoint():
     data = request.get_json()
-    print("*******************************************")
-    print(data)
     input_symbol = data.get('symbol')
 
     try:
@@ -180,30 +178,6 @@ def sell_stock_endpoint():
     return jsonify(result), status_code
 
 
-@app.route('/create_asset', methods=['POST'])
-def create_asset_endpoint():
-    try:
-        data = request.json
-        symbol = data.get('symbol')
-        # todo make the symbol auto populate when the user enters the right stock symbol
-        # todo make the Price per Share box fixed
-        # todo change category name to STOCK
-
-        name = data.get('name')
-        category_name = data.get('category_name')
-        total_purchase_price = data.get('total_purchase_price')
-        quantity = data.get('quantity')
-
-        if not (symbol and name and category_name and total_purchase_price and quantity):
-            return jsonify({"error": "All fields are required"}), 400
-
-        asset_id, message, status_code = create_asset(symbol, name, category_name, total_purchase_price, quantity)
-        return jsonify({"asset_id": asset_id, "message": message}), status_code
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
 @app.route('/api/get_transactions')
 def get_transactions():
     return read_transactions()
@@ -230,6 +204,14 @@ def get_tickers_from_assets():
         if asset["category_name"] == 'Stock':
             ticker_names.add(asset["symbol"])
     return ticker_names
+
+
+@app.route("/api/get_long_name/<string:ticker>")
+def get_long_name_api(ticker):
+    result = {
+        'name': get_asset_name(ticker)
+    }
+    return jsonify(result)
 
 
 if __name__ == '__main__':
