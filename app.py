@@ -113,7 +113,7 @@ def get_unrealized_profit():
     for asset in assets:
         if asset["category_name"] == 'Stock':
             profit += get_asset_unrealized_profit(asset)
-    return jsonify(round(profit,2)), 200
+    return jsonify(round(profit, 2)), 200
 
 
 def get_asset_unrealized_profit(asset):
@@ -128,7 +128,6 @@ def buy_stock_endpoint():
     print("*******************************************")
     print(data)
     input_symbol = data.get('symbol')
-
 
     try:
         long_name = get_asset_name(input_symbol)
@@ -160,12 +159,36 @@ def sell_stock_endpoint():
     except (TypeError, ValueError, InvalidOperation) as e:
         return jsonify({'error': 'Invalid price or quantity provided'}), 400
 
-
     if not input_symbol or not selling_price or not input_quantity:
         return jsonify({'error': 'Missing required parameters'}), 400
 
     result, status_code = sell_stock(input_symbol, selling_price, input_quantity)
     return jsonify(result), status_code
+
+
+@app.route('/create_asset', methods=['POST'])
+def create_asset_endpoint():
+    try:
+        data = request.json
+        symbol = data.get('symbol')
+        # todo make the symbol auto populate when the user enters the right stock symbol
+        # todo make the Price per Share box fixed
+        # todo change category name to STOCK
+
+        name = data.get('name')
+        category_name = data.get('category_name')
+        total_purchase_price = data.get('total_purchase_price')
+        quantity = data.get('quantity')
+
+        if not (symbol and name and category_name and total_purchase_price and quantity):
+            return jsonify({"error": "All fields are required"}), 400
+
+        asset_id, message, status_code = create_asset(symbol, name, category_name, total_purchase_price, quantity)
+        return jsonify({"asset_id": asset_id, "message": message}), status_code
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/get_transactions')
 def get_transactions():

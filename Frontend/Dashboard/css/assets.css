@@ -14,6 +14,7 @@ main .assetsSection {
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 /* Creating a scrollbar when there are more than 3 records in the database */
@@ -26,7 +27,7 @@ main .tableContainer {
 main .assetsTable th, main .assetsTable td {
     padding: 8px;
     text-align: left;
-    border: none; /* Remove borders from th and td */
+    border: none;
 }
 
 .trAssets th {
@@ -36,4 +37,19 @@ main .assetsTable th, main .assetsTable td {
 
 main .assetsTable tr td {
     color: black;
+}
+
+/* Style for the create asset button */
+main .createAssetButton {
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
