@@ -219,14 +219,38 @@
             <script src="Dashboard/js/trade.js"></script>
 
             <section id="api-post-data-section" class="content-section">
-                <div class="apiPostData">
-                    <h1 class="assetsHeader">Yahoo Finance Data</h1>
-                    <div class="apiData">
-                        <div id="result"></div>
-                        <script src="Dashboard/js/postRecord.js"></script>
-                    </div>
-                    <!-- END OF API Test button call -->
-                </div>
+                <h1 class="assetsHeader">Market Data</h1>
+                    <section id="market-section" class="content-section">
+                        <div class="assetsSection">
+                            <div class="tableContainer">
+                                <table class="assetsTable">
+                                    <thead>
+                                        <tr class="trAssets">
+                                        <tr class="trAssets">
+                                            <th>Asset Name</th>
+                                            <th>Market Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if asset_prices %}
+                                        {% for asset_price in asset_prices %}
+                                        <tr>
+                                            <td>{{ asset_price.asset_name }}</td>
+                                            <td>{{ asset_price.price }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="5">Asset price data not loaded</td>
+                                        </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-------------------- END OF TRANSACTION ----------------------->
+                    </section>
+                <!-- END OF API Test button call -->
             </section>
 
             <section id="graph-section" class="content-section">
@@ -293,7 +317,7 @@
                                 <tr class="trAssets">
                                 <tr class="trAssets">
                                     <th>Asset Name</th>
-                                    <th>Transaction Type</th>
+                                    <th>Type</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Date</th>
