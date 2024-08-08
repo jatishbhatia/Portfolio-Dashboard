@@ -39,9 +39,11 @@ INSERT INTO Category (name, description) VALUES
 
 -- Insert data into Asset table
 INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity) VALUES
-('AAPL', 'Apple Inc.', 'Stock', 1500.00, 10);
+('AAPL', 'Apple Inc.', 'Stock', 1500.00, 10),
+('GOOG', 'Alphabet Inc.', 'Stock', 2500.00, 25);
 
 
 -- Insert data into Transaction table
 INSERT INTO Transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES
-(1, 'buy', 10, 150.00, '2024-07-01 10:30:00');
+(1, 'buy', 10, 150.00, '2024-07-01 10:30:00'),
+(2, 'buy', 20, 100.00, '2024-07-02 10:30:00');
