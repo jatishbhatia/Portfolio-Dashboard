@@ -14,8 +14,8 @@ function AddAsset() {
             <div class="form-container">
                 <form id="tradeForm">
                     <div class="form-group">
-                        <label for="stockSymbol">Stock Symbol:</label>
-                        <input type="text" id="stockSymbol" name="stockSymbol" required>
+                        <label for="stockSymbolAddAsset">Stock Symbol:</label>
+                        <input type="text" id="stockSymbolAddAsset" name="stockSymbol" required>
                     </div>
                     <div class="form-group">
                         <label for="assetName">Asset Name:</label>
@@ -30,9 +30,8 @@ function AddAsset() {
                         <input type="number" id="quantity" name="quantity" required min="1">
                     </div>
                     <div class="form-group">
-                        <label for="price">Price per Share:</label>
-//                        todo change the value of 100 to value="${data.price}"
-                        <input type="number" id="price" name="price" step="0.01" required min="0.01" value="100" readonly>
+                        <label for="priceInForm">Price per Share:</label>
+                        <input type="number" id="priceInForm" name="priceInForm" step="0.01" required min="0.01" readonly>
                     </div>
                 </form>
             </div>
@@ -43,11 +42,11 @@ function AddAsset() {
         focusConfirm: false,
         preConfirm: () => {
             const form = Swal.getPopup().querySelector('#tradeForm');
-            const stockSymbol = form.querySelector('#stockSymbol').value;
+            const stockSymbol = form.querySelector('#stockSymbolAddAsset').value;
             const assetName = form.querySelector('#assetName').value;
             const categoryName = form.querySelector('#categoryName').value;
             const quantity = parseInt(form.querySelector('#quantity').value, 10);
-            const price = parseFloat(form.querySelector('#price').value);
+            const price = parseFloat(form.querySelector('#priceInForm').value);
 
             if (!stockSymbol || !assetName || !categoryName || isNaN(quantity) || quantity <= 0 || isNaN(price) || price <= 0) {
                 Swal.showValidationMessage('Please provide valid inputs.');
@@ -59,13 +58,37 @@ function AddAsset() {
     }).then((result) => {
         if (result.isConfirmed) {
             const { stockSymbol, assetName, categoryName, quantity, price } = result.value;
-            submitForm(stockSymbol, assetName, categoryName, quantity, price);
+            submitFormAsset(stockSymbol, assetName, categoryName, quantity, price);
         }
     });
+
+    document.getElementById('stockSymbolAddAsset').addEventListener('blur', function() {
+        const stockName = this.value;
+        if (stockName) {
+            fetchDataAndAddPrice(stockName);
+        }
+    });
+
+
+    function fetchDataAndAddPrice(stockName) {
+            fetch(`/api/get_current_price/${encodeURIComponent(stockName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('priceInForm').value = data.price.toFixed(2);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+    }
 }
 
-function submitForm(stockSymbol, assetName, categoryName, quantity, price) {
+
+
+function submitFormAsset(stockSymbol, assetName, categoryName, quantity, price) {
     try {
+        console.log('*************************')
+        console.log(quantity)
+        console.log(price)
         if (quantity <= 0 || price <= 0) {
             throw new Error('Invalid price or quantity provided');
         }
