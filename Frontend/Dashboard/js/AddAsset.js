@@ -18,12 +18,12 @@ function AddAsset() {
                         <input type="text" id="stockSymbolAddAsset" name="stockSymbol" required>
                     </div>
                     <div class="form-group">
-                        <label for="assetName">Asset Name:</label>
-                        <input type="text" id="assetName" name="assetName" required>
+                        <label for="assetNameInForm">Asset Name:</label>
+                        <input type="text" id="assetNameInForm" name="assetNameInForm" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="categoryName">Category Name:</label>
-                        <input type="text" id="categoryName" name="categoryName" required>
+                        <label for="categoryNameInForm">Category Name:</label>
+                        <input type="text" id="categoryNameInForm" name="categoryNameInForm" readonly>
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity:</label>
@@ -43,8 +43,8 @@ function AddAsset() {
         preConfirm: () => {
             const form = Swal.getPopup().querySelector('#tradeForm');
             const stockSymbol = form.querySelector('#stockSymbolAddAsset').value;
-            const assetName = form.querySelector('#assetName').value;
-            const categoryName = form.querySelector('#categoryName').value;
+            const assetName = form.querySelector('#assetNameInForm').value;
+            const categoryName = form.querySelector('#categoryNameInForm').value;
             const quantity = parseInt(form.querySelector('#quantity').value, 10);
             const price = parseFloat(form.querySelector('#priceInForm').value);
 
@@ -65,20 +65,29 @@ function AddAsset() {
     document.getElementById('stockSymbolAddAsset').addEventListener('blur', function() {
         const stockName = this.value;
         if (stockName) {
-            fetchDataAndAddPrice(stockName);
+            fetchDataAndAddFields(stockName);
         }
     });
 
 
-    function fetchDataAndAddPrice(stockName) {
-            fetch(`/api/get_current_price/${encodeURIComponent(stockName)}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('priceInForm').value = data.price.toFixed(2);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
+    function fetchDataAndAddFields(stockName) {
+        fetch(`/api/get_current_price/${encodeURIComponent(stockName)}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('priceInForm').value = data.price.toFixed(2);
+                document.getElementById('categoryNameInForm').value = "Stock"
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        fetch(`/api/get_long_name/${encodeURIComponent(stockName)}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('assetNameInForm').value = data.name
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     }
 }
 
@@ -86,14 +95,13 @@ function AddAsset() {
 
 function submitFormAsset(stockSymbol, assetName, categoryName, quantity, price) {
     try {
-        
         if (quantity <= 0 || price <= 0) {
             throw new Error('Invalid price or quantity provided');
         }
 
         const totalPurchasePrice = quantity * price;
 
-        fetch('/create_asset', {
+        fetch('/buy_stock', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
