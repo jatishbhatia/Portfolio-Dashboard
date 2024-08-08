@@ -309,38 +309,40 @@
 
             <h1 class="assetsHeader">Transactions History</h1>
             <section id="transactions-section" class="content-section">
-                <div class="assetsSection">
-                    <h2 class="assetsHeader">Recent Transactions</h2>
-                    <div class="transactionTableContainer">
-                        <table class="assetsTable">
-                            <thead>
-                                <tr class="trAssets">
-                                <tr class="trAssets">
-                                    <th>Asset Name</th>
-                                    <th>Type</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if transactions %}
-                                {% for transaction in transactions %}
-                                <tr>
-                                    <td>{{ transaction.name }}</td>
-                                    <td>{{ transaction.transaction_type }}</td>
-                                    <td>{{ transaction.quantity }}</td>
-                                    <td>{{ transaction.price }}</td>
-                                    <td>{{ transaction.transaction_date }}</td>
-                                </tr>
-                                {% endfor %}
-                                {% else %}
-                                <tr>
-                                    <td colspan="5">No transactions found</td>
-                                </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
+                <div class="transactionWrapper">
+                    <div class="assetsSection">
+                        <h2 class="assetsHeader">Recent Transactions</h2>
+                        <div class="transactionTableContainer">
+                            <table class="assetsTable">
+                                <thead>
+                                    <tr class="trAssets">
+                                    <tr class="trAssets">
+                                        <th>Asset Name</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if transactions %}
+                                    {% for transaction in transactions %}
+                                    <tr>
+                                        <td>{{ transaction.name }}</td>
+                                        <td>{{ transaction.transaction_type }}</td>
+                                        <td>{{ transaction.quantity }}</td>
+                                        <td>{{ transaction.price }}</td>
+                                        <td>{{ transaction.transaction_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5">No transactions found</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-------------------- END OF TRANSACTION ----------------------->

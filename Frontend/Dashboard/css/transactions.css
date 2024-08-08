@@ -74,7 +74,25 @@ main .transactionTableContainer {
     height: 600px;
     max-width: 800px;
     overflow-y: auto;
-    margin-top: 2.5rem;
-     background: var(--color-light);
+    margin-top: 1rem;
+    background: var(--color-light);
 }
 
+main .transactionWrapper {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+/*
+border-collapse: collapse;
+width: calc(100% - 0rem);
+main .transactionTableContainer,
+main .transactionWrapper {
+    margin: 0;
+    padding: 0;
+}
+main .transactionTableContainer table {
+    width: 100%;
+    border-collapse: collapse; /* Optional: Makes table borders collapse to avoid extra spacing */
+}
+*/
