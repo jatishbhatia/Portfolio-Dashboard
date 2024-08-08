@@ -228,7 +228,12 @@ def read_transactions():
     connection = connect_to_db()
     cursor = connection.cursor(dictionary=True)
     try:
-        cursor.execute("SELECT * FROM Transaction t LEFT JOIN asset a ON t.asset_id = a.id ORDER BY transaction_date DESC")
+        cursor.execute("""SELECT a.name as name, 
+		                         t.transaction_type as transaction_type,
+                                 t.quantity as quantity,
+		                         t.price as price,
+                                 t.transaction_date as transaction_date
+                        FROM Transaction t LEFT JOIN asset a ON t.asset_id = a.id ORDER BY transaction_date DESC""")
         transactions = cursor.fetchall()
         return transactions
     except mysql.connector.Error as err:
@@ -322,8 +327,9 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
                 return update_result, status_code
         else:
             # Asset does not exist, create it
+            new_total_purchase_price = purchase_price * input_quantity
             asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock',
-                                                                purchase_price * input_quantity, input_quantity)
+                                                                new_total_purchase_price, input_quantity)
 
             if status_code != 201:
                 return create_result, status_code
