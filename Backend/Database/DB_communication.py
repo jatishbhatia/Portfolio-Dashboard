@@ -146,24 +146,6 @@ def read_assets():
         close_connection(connection)
 
 
-# getting the symbol and the category from the database
-# def get_asset_details(symbol):
-#     connection = connect_to_db()
-#     cursor = connection.cursor(dictionary=True)
-#     try:
-#         query = "SELECT name, category, purchase_price, quantity FROM Asset WHERE symbol = %s"
-#         cursor.execute(query, (symbol,))
-#         asset = cursor.fetchone()
-#         if asset is None:
-#             raise KeyError(f"Asset details not found for symbol {symbol}")
-#         return asset
-#     except mysql.connector.Error as err:
-#         return {'error': str(err)}, 400
-#     finally:
-#         cursor.close()
-#         close_connection(connection)
-
-
 def update_asset(id, symbol, name, category_name, total_purchase_price, quantity):
     connection = connect_to_db()
     cursor = connection.cursor()
@@ -228,7 +210,12 @@ def read_transactions():
     connection = connect_to_db()
     cursor = connection.cursor(dictionary=True)
     try:
-        cursor.execute("SELECT * FROM Transaction t LEFT JOIN asset a ON t.asset_id = a.id ORDER BY transaction_date DESC")
+        cursor.execute("""SELECT a.name as name, 
+		                         t.transaction_type as transaction_type,
+                                 t.quantity as quantity,
+		                         t.price as price,
+                                 t.transaction_date as transaction_date
+                        FROM Transaction t LEFT JOIN asset a ON t.asset_id = a.id ORDER BY transaction_date DESC""")
         transactions = cursor.fetchall()
         return transactions
     except mysql.connector.Error as err:
@@ -317,20 +304,22 @@ def buy_stock(input_symbol, long_name, purchase_price, input_quantity):
             new_quantity = existing_quantity + input_quantity
             new_total_purchase_price = total_purchase_price + (purchase_price * input_quantity)
             update_result, status_code = update_asset(asset_id, input_symbol, long_name, "Stock",
-                                         new_total_purchase_price, new_quantity)
+                                                      new_total_purchase_price, new_quantity)
             if 'error' in update_result:
                 return update_result, status_code
         else:
             # Asset does not exist, create it
+            new_total_purchase_price = purchase_price * input_quantity
             asset_id, create_result, status_code = create_asset(input_symbol, long_name, 'Stock',
-                                                                purchase_price * input_quantity, input_quantity)
+                                                                new_total_purchase_price, input_quantity)
 
             if status_code != 201:
                 return create_result, status_code
 
         # Insert the transaction record
         current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        transaction_result, status_code = create_transaction(asset_id, 'buy', input_quantity, purchase_price, current_timestamp)
+        transaction_result, status_code = create_transaction(asset_id, 'buy', input_quantity, purchase_price,
+                                                             current_timestamp)
         if 'error' in transaction_result:
             return transaction_result, status_code
 
@@ -368,7 +357,7 @@ def sell_stock(input_symbol, selling_price, input_quantity):
                 # avg_stock_price = total_purchase_price / existing_quantity
                 new_total_purchase_price = total_purchase_price - (input_quantity * selling_price)
                 update_result, status_code = update_asset(asset_id, input_symbol, name, 'Stock',
-                                             new_total_purchase_price, new_quantity)
+                                                          new_total_purchase_price, new_quantity)
                 if 'error' in update_result:
                     return update_result, status_code
 
@@ -395,7 +384,6 @@ def sell_stock(input_symbol, selling_price, input_quantity):
 
 
 establish_connection()
-
 # print(buy_stock('TLT', 'yo', 6, 5))
 # print(read_assets())
 # print("\n--------------------------\nTRANSACTIONS\n")

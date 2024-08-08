@@ -83,16 +83,3 @@ main .transactionWrapper {
     justify-content: center;
     margin: 0;
 }
-/*
-border-collapse: collapse;
-width: calc(100% - 0rem);
-main .transactionTableContainer,
-main .transactionWrapper {
-    margin: 0;
-    padding: 0;
-}
-main .transactionTableContainer table {
-    width: 100%;
-    border-collapse: collapse; /* Optional: Makes table borders collapse to avoid extra spacing */
-}
-*/

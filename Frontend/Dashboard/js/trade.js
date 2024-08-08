@@ -38,11 +38,11 @@ function showTradePopup(assetName, stockSymbol) {
                             </div>
                             <div class="form-group">
                                 <label for="quantity">Quantity:</label>
-                                <input type="number" id="quantity" name="quantity" required>
+                                <input type="number" id="quantity" name="quantity" min="1" required>
                             </div>
                             <div class="form-group">
                                 <label for="price">Price per Share:</label>
-                                <input type="number" id="price" name="price" step="0.01" value="${data.price}" readonly>
+                                <input type="number" id="price" name="price" step="0.01" value="${data.price}" min="0.01" readonly>
                             </div>
                         </form>
                     </div>
@@ -125,10 +125,7 @@ function updateTradeHistory(result, formData) {
     const size = formData.quantity || '';
     const price = formData.price !== undefined ? parseFloat(formData.price).toFixed(2) : '';
     const timestamp = new Date().toLocaleString(); // Current time
-//    const position = result.asset.category || ''; // Category of the asset
     const position = '';
-//    const balance = result.asset.purchasePrice !== undefined ? result.asset.purchasePrice.toFixed(2) : '';
-//    const unrealizedPnL = result.unrealizedPnL !== undefined ? result.unrealizedPnL.toFixed(2) : '';
     const balance = '';
     const unrealizedPnL = '';
     console.log('Updating trade history with:', { side, size, price, timestamp, position, balance, unrealizedPnL });

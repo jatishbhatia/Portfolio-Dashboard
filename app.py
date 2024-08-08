@@ -69,13 +69,14 @@ def get_market_data_api(stock, start_date, end_date, interval):
     df = get_market_data(stock, start_date_dt, end_date_dt, interval)
     return df.to_json(orient='records')
 
+
 @app.route("/api/get_time_series", methods=['GET'])
 def get_asset_time_series_value():
     tickers = get_tickers_from_assets()
     time_series_dict = {}
     for ticker in tickers:
         time_now = datetime.now()
-        df = pd.DataFrame(get_market_data(ticker, time_now - timedelta(days=1), time_now,'30m')["Close"])
+        df = pd.DataFrame(get_market_data(ticker, time_now - timedelta(days=1), time_now, '30m')["Close"])
         time_series_dict[ticker] = {
             'Date': df.index.tolist(),
             'Close': df['Close'].tolist()
@@ -191,8 +192,8 @@ def get_assets_market_price():
         asset_name = get_asset_name(ticker)
         ticker_price_list.append({
             'asset_name': asset_name,
-            'price': round(price,2),
-            'ticker_name' : ticker
+            'price': round(price, 2),
+            'ticker_name': ticker
         })
     return ticker_price_list
 

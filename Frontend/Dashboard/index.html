@@ -227,8 +227,8 @@
                                         <tr class="trAssets">
                                         <tr class="trAssets">
                                             <th>Asset Name</th>
-                                            <th>Market Price</th>
                                             <th>Symbol</th>
+                                            <th>Market Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -236,8 +236,8 @@
                                         {% for asset_price in asset_prices %}
                                         <tr>
                                             <td>{{ asset_price.asset_name }}</td>
-                                            <td>{{ asset_price.price }}</td>
                                             <td>{{ asset_price.ticker_name }}</td>
+                                            <td>{{ asset_price.price }}</td>
                                         </tr>
                                         {% endfor %}
                                         {% else %}
