@@ -39,16 +39,9 @@ INSERT INTO Category (name, description) VALUES
 
 -- Insert data into Asset table
 INSERT INTO Asset (symbol, name, category_name, total_purchase_price, quantity) VALUES
-('AAPL', 'Apple Inc.', 'Stock', 1500.00, 10),
-('GOOG', 'Alphabet Inc.', 'Stock', 2500.00, 25),
-('TLT', 'iShares 20+ Year Treasury Bond ETF', 'Bond', 2000.00, 15),
-('CASH', 'Cash Fund', 'Cash', 100500.00, NULL),
-('Property 101', 'Beachfront Property', 'Real_Estate', 300000.00, 1),
-('Gold Necklace', 'Gold and Diamond Necklace', 'Valuables', 10000.00, NULL);
+('AAPL', 'Apple Inc.', 'Stock', 1500.00, 10);
+
 
 -- Insert data into Transaction table
 INSERT INTO Transaction (asset_id, transaction_type, quantity, price, transaction_date) VALUES
-(1, 'buy', 10, 150.00, '2024-07-01 10:30:00'),  -- Buying an asset
-(2, 'sell', 5, 1000.00, '2024-07-01 11:00:00'), -- Selling an asset
-(4, 'cash_in', NULL, 5000.00, '2024-07-01 12:00:00'),  -- Depositing cash
-(4, 'cash_out', NULL, 200.00, '2024-07-02 09:00:00'); -- Spending cash
+(1, 'buy', 10, 150.00, '2024-07-01 10:30:00');

@@ -217,7 +217,8 @@ def get_assets_market_price():
         asset_name = get_asset_name(ticker)
         ticker_price_list.append({
             'asset_name': asset_name,
-            'price': round(price,2)
+            'price': round(price,2),
+            'ticker_name' : ticker
         })
     return ticker_price_list
 

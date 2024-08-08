@@ -147,7 +147,7 @@
                                 <tr class="trAssets">
                                     <th>Asset Name</th>
                                     <th>Category</th>
-                                    <th>Purchase Price</th>
+                                    <th>Balance</th>
                                     <th>Quantity</th>
                                     <th>Trade</th>
                                 </tr>
@@ -158,7 +158,7 @@
                                 <tr>
                                     <td id="assetName">{{ asset.name }}</td>
                                     <td>{{ asset.category_name }}</td>
-                                    <td>{{ asset.total_purchase_price }}</td>
+                                    <td>{{ -asset.total_purchase_price }}</td>
                                     <td>{{ asset.quantity }}</td>
                                     <td><button class="tradeButton" data-asset-name="{{ asset.name }}"
                                                 data-stock-symbol="{{ asset.symbol }}">Trade</button></td>
@@ -235,6 +235,7 @@
                                         <tr class="trAssets">
                                             <th>Asset Name</th>
                                             <th>Market Price</th>
+                                            <th>Symbol</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -243,6 +244,7 @@
                                         <tr>
                                             <td>{{ asset_price.asset_name }}</td>
                                             <td>{{ asset_price.price }}</td>
+                                            <td>{{ asset_price.ticker_name }}</td>
                                         </tr>
                                         {% endfor %}
                                         {% else %}
