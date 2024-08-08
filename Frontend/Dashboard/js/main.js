@@ -1,48 +1,53 @@
 document.addEventListener("DOMContentLoaded", function() {
         const ctx = document.getElementById('chart').getContext('2d');
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
-                datasets: [
-                    {
-                        label: 'BTC',
-                        data: [29374, 33537, 49631, 59095, 57828, 36684, 33572, 39974, 48847, 48116, 61004],
-                        borderColor: 'red',
+        fetch('/api/get_time_series').then(result => result.json())
+            .then(series=>{
+                const dataToGraph = []
+                for ( const [label, vals] of Object.entries(series)) {
+                    dataToGraph.push({
+                        label: label,
+                        data: vals.Close,
+                        borderColor: getRandomColor(),
                         borderWidth: 2,
                         fill: false
-                    },
-                    {
-                        label: 'ETH',
-                        data: [2174, 2737, 3631, 4095, 4828, 6684, 7572, 6974, 8847, 8116, 9004],
-                        borderColor: 'blue',
-                        borderWidth: 2,
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Month'
-                        }
-                    },
-                    y: {
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Value'
-                        }
-                    }
+                    })
                 }
-            }
-        });
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: series[Object.keys(series)[0]].Date,
+                        datasets: dataToGraph
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Value'
+                                }
+                            }
+                        }
+                    }
+                })
+
+            })
     });
+
+function getRandomColor() {
+    const colors = ['Red', 'Green', 'Blue', 'Orange', 'Purple', 'Pink'];
+    return colors[Math.floor(Math.random()*5)];
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
         function getProfit() {

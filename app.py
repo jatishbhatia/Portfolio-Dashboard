@@ -1,7 +1,8 @@
 from decimal import Decimal, InvalidOperation
 
+import pandas as pd
 from flask import Flask, render_template, request, jsonify
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from Backend.MarketData.YahooAPI.market_data_source import get_market_data, get_current_price, \
     get_stock_info, get_asset_name  # Import your function here
@@ -67,6 +68,19 @@ def get_market_data_api(stock, start_date, end_date, interval):
     end_date_dt = datetime.strptime(end_date, '%Y-%m-%d')
     df = get_market_data(stock, start_date_dt, end_date_dt, interval)
     return df.to_json(orient='records')
+
+@app.route("/api/get_time_series", methods=['GET'])
+def get_asset_time_series_value():
+    tickers = get_tickers_from_assets()
+    time_series_dict = {}
+    for ticker in tickers:
+        time_now = datetime.now()
+        df = pd.DataFrame(get_market_data(ticker, time_now - timedelta(days=1), time_now,'30m')["Close"])
+        time_series_dict[ticker] = {
+            'Date': df.index.tolist(),
+            'Close': df['Close'].tolist()
+        }
+    return jsonify(time_series_dict)
 
 
 @app.route("/api/get_current_price/<string:stock>")
@@ -173,21 +187,25 @@ def get_transactions():
 
 
 def get_assets_market_price():
-    assets = read_assets()
-    ticker_names = set()
-    for asset in assets:
-        if asset["category_name"] == 'Stock':
-            ticker_names.add(asset["symbol"])
-
+    ticker_names = get_tickers_from_assets()
     ticker_price_list = []
     for ticker in ticker_names:
         price = get_current_price(ticker)
         asset_name = get_asset_name(ticker)
         ticker_price_list.append({
             'asset_name': asset_name,
-            'price': price
+            'price': round(price,2)
         })
     return ticker_price_list
+
+
+def get_tickers_from_assets():
+    assets = read_assets()
+    ticker_names = set()
+    for asset in assets:
+        if asset["category_name"] == 'Stock':
+            ticker_names.add(asset["symbol"])
+    return ticker_names
 
 
 if __name__ == '__main__':

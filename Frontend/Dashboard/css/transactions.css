@@ -72,7 +72,7 @@ main .recent-transactions {
 
 main .transactionTableContainer {
     height: 600px;
-    max-width: 800px;
+    max-width: 850px;
     overflow-y: auto;
     margin-top: 1rem;
     background: var(--color-light);

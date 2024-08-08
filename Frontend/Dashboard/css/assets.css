@@ -18,7 +18,7 @@ main .assetsSection {
 
 /* Creating a scrollbar when there are more than 3 records in the database */
 main .tableContainer {
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
     margin-top: 1rem;
 }
@@ -30,7 +30,7 @@ main .assetsTable th, main .assetsTable td {
 }
 
 .trAssets th {
-    background-color: rgb(201, 83, 83);
+    background-color: rgb(21, 83, 83);
     color: white;
 }
 
